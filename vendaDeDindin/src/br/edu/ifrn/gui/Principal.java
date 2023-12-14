@@ -9,14 +9,7 @@ public class Principal extends javax.swing.JFrame {
 
     public Principal() {
         initComponents();
-        
-        ArrayList<Dindin> lista = new ConexaoDindin().select();
-        
-        for (Dindin d : lista) {
-            if (d.getQuantidadeEstoque() > 0) {
-                combo_saborDindin.addItem(d.getSabor());
-            }
-        }
+        preencherComboDindin();
     }
 
     /**
@@ -71,19 +64,10 @@ public class Principal extends javax.swing.JFrame {
 
         tabela_dindinsSelecionados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Sabor", "Valor", "Quantidade"
+                "Sabor", "Valor", "Quantidade selecionada"
             }
         ) {
             Class[] types = new Class [] {
@@ -461,9 +445,22 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_campo_quantidadeDindinVendidoActionPerformed
 
     private void botao_selecionarDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_selecionarDindinActionPerformed
-        // TODO add your handling code here:
+        String sabor = combo_saborDindin.getSelectedItem().toString();
+        
+        Dindin d = new ConexaoDindin().selectDindin(sabor);
     }//GEN-LAST:event_botao_selecionarDindinActionPerformed
 
+    private void preencherComboDindin(){
+        ArrayList<Dindin> lista = new ConexaoDindin().selectDindins();
+        
+        for (Dindin d : lista) {
+            if (d.getQuantidadeEstoque() > 0) {
+                String item = String.format("%s (%d)", d.getSabor(), d.getQuantidadeEstoque());
+                combo_saborDindin.addItem(item);
+            }
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
