@@ -1,7 +1,7 @@
 package br.edu.ifrn.dominio;
 
 
-class DindinVendido {
+public class DindinVendido {
     private final Dindin dindin;
     private final int quantidade;
 
