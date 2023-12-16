@@ -2,6 +2,7 @@ package br.edu.ifrn.dominio;
 
 public class Dindin {
     private String sabor;
+    private double custo;
     private double valor;
     private int quantidadeEstoque;
 
@@ -23,6 +24,14 @@ public class Dindin {
 
     public void setSabor(String sabor) {
         this.sabor = sabor;
+    }
+
+    public double getCusto() {
+        return custo;
+    }
+
+    public void setCusto(double custo) {
+        this.custo = custo;
     }
 
     public double getValor() {
