@@ -79,13 +79,16 @@ public class Tela extends javax.swing.JFrame {
         painel_venda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Venda", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         jButton2.setText("Remover");
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jButton1.setText("Adicionar");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         spinner_quantidadeSabor.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1, 1));
         spinner_quantidadeSabor.setToolTipText("Quantidade do sabor definido");
 
         combo_saborDindin.setToolTipText("Sabor do dindin");
+        combo_saborDindin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout painel_formSaborVendaLayout = new javax.swing.GroupLayout(painel_formSaborVenda);
         painel_formSaborVenda.setLayout(painel_formSaborVendaLayout);
@@ -134,6 +137,7 @@ public class Tela extends javax.swing.JFrame {
 
         botao_executarVenda.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         botao_executarVenda.setText("Executar venda");
+        botao_executarVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         botao_executarVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botao_executarVendaActionPerformed(evt);
@@ -142,6 +146,7 @@ public class Tela extends javax.swing.JFrame {
 
         botao_cancelarVenda.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         botao_cancelarVenda.setText("Cancelar venda");
+        botao_cancelarVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout painel_vendaLayout = new javax.swing.GroupLayout(painel_venda);
         painel_venda.setLayout(painel_vendaLayout);
@@ -179,6 +184,7 @@ public class Tela extends javax.swing.JFrame {
 
         painel_estoque.setBackground(new java.awt.Color(255, 255, 255));
         painel_estoque.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estoque", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        painel_estoque.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Dindins em estoque"));
 
@@ -257,6 +263,7 @@ public class Tela extends javax.swing.JFrame {
 
         botao_removerDindin.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         botao_removerDindin.setText("Remover");
+        botao_removerDindin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout painel_botoesDindinLayout = new javax.swing.GroupLayout(painel_botoesDindin);
         painel_botoesDindin.setLayout(painel_botoesDindinLayout);
@@ -339,10 +346,13 @@ public class Tela extends javax.swing.JFrame {
         jScrollPane3.setViewportView(tabela_historicoVendas);
 
         botao_restaurarVenda.setText("Restaurar venda");
+        botao_restaurarVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         botao_indeferirVenda.setText("Indeferir venda");
+        botao_indeferirVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         botao_gerarRelatorio.setText("Gerar relatório");
+        botao_gerarRelatorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout painel_botoesHistoricoLayout = new javax.swing.GroupLayout(painel_botoesHistorico);
         painel_botoesHistorico.setLayout(painel_botoesHistoricoLayout);
