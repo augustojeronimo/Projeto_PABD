@@ -16,16 +16,18 @@ public class ConexaoDindin extends ConexaoBD {
         try {
             instrucao = con.prepareStatement("select * from dindin where sabor = ? limit 1");
             instrucao.setString(1, sabor);
-            
+
             ResultSet resul = instrucao.executeQuery();
             
-            d.setSabor(resul.getString("sabor"));
-            d.setCusto(resul.getDouble("custo"));
-            d.setValor(resul.getDouble("valor"));
-            d.setQuantidadeEstoque(resul.getInt("quantidadeEstoque"));
+            while (resul.next()) {                
+                d.setSabor(resul.getString("sabor"));
+                d.setCusto(resul.getDouble("custo"));
+                d.setValor(resul.getDouble("valor"));
+                d.setQuantidadeEstoque(resul.getInt("quantidadeEstoque"));
+            }
             
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao consultar");
+            JOptionPane.showMessageDialog(null, "Erro ao consultar [unico]");
         } finally {
             fecharConexao();
         }
@@ -47,6 +49,7 @@ public class ConexaoDindin extends ConexaoBD {
                 Dindin d = new Dindin();
                 
                 d.setSabor(resul.getString("sabor"));
+                d.setCusto(resul.getDouble("custo"));
                 d.setValor(resul.getDouble("valor"));
                 d.setQuantidadeEstoque(resul.getInt("quantidadeEstoque"));
                 

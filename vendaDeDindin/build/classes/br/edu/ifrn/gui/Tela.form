@@ -102,8 +102,10 @@
                           <Component id="painel_formSaborVenda" max="32767" attributes="0"/>
                           <Component id="jScrollPane1" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="label_valorTotalVenda" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                              <Component id="label_valorTotalVenda" min="-2" pref="170" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="spinner_descontoVenda" min="-2" pref="77" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="32767" attributes="0"/>
                               <Component id="botao_cancelarVenda" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="botao_executarVenda" min="-2" max="-2" attributes="0"/>
@@ -121,10 +123,11 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" pref="214" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="botao_cancelarVenda" max="32767" attributes="0"/>
-                          <Component id="botao_executarVenda" max="32767" attributes="0"/>
-                          <Component id="label_valorTotalVenda" min="-2" pref="45" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="botao_cancelarVenda" min="-2" pref="45" max="-2" attributes="0"/>
+                          <Component id="botao_executarVenda" min="-2" pref="45" max="-2" attributes="0"/>
+                          <Component id="spinner_descontoVenda" alignment="1" min="-2" pref="45" max="-2" attributes="0"/>
+                          <Component id="label_valorTotalVenda" alignment="0" min="-2" pref="45" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -143,9 +146,9 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="spinner_quantidadeSabor" min="-2" pref="76" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="32767" attributes="0"/>
-                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                          <Component id="botao_adicionarDindinVenda" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                          <Component id="botao_removerDindinVenda" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -157,8 +160,8 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="combo_saborDindin" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="spinner_quantidadeSabor" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                              <Component id="jButton1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                              <Component id="jButton2" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="botao_adicionarDindinVenda" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="botao_removerDindinVenda" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -166,7 +169,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JButton" name="jButton2">
+                <Component class="javax.swing.JButton" name="botao_removerDindinVenda">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Remover"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -174,13 +177,16 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton1">
+                <Component class="javax.swing.JButton" name="botao_adicionarDindinVenda">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Adicionar"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Cursor em Forma de M&#xe3;o"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botao_adicionarDindinVendaActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JSpinner" name="spinner_quantidadeSabor">
                   <Properties>
@@ -200,6 +206,9 @@
                       <Color id="Cursor em Forma de M&#xe3;o"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="combo_saborDindinActionPerformed"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
@@ -271,6 +280,18 @@
                 <Property name="text" type="java.lang.String" value="Cancelar venda"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor em Forma de M&#xe3;o"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JSpinner" name="spinner_descontoVenda">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0.0" maximum="99.99" minimum="0.0" numberType="java.lang.Double" stepSize="0.05" type="number"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="Desconto"/>
+                  </Border>
                 </Property>
               </Properties>
             </Component>
@@ -466,9 +487,9 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="botao_cadastrarDindin" min="-2" pref="150" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" pref="39" max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" pref="42" max="32767" attributes="0"/>
                           <Component id="botao_atualizarDindin" min="-2" pref="150" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" pref="40" max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" pref="43" max="32767" attributes="0"/>
                           <Component id="botao_removerDindin" min="-2" pref="150" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -548,7 +569,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane3" alignment="1" pref="549" max="32767" attributes="0"/>
+                          <Component id="jScrollPane3" alignment="1" pref="555" max="32767" attributes="0"/>
                           <Component id="painel_botoesHistorico" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>

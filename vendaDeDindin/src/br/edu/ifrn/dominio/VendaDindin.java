@@ -1,11 +1,15 @@
 package br.edu.ifrn.dominio;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class VendaDindin {
     private int idVenda;
     private double valorTotal;
+    private double desconto;
+    private Date dataVenda;
+    private String estado;
     private List<DindinVendido> dindinsVendidos;
 
     public VendaDindin() {
