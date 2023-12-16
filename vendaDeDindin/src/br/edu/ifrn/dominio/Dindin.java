@@ -1,5 +1,7 @@
 package br.edu.ifrn.dominio;
 
+import java.util.Objects;
+
 public class Dindin {
     private String sabor;
     private double custo;
@@ -12,8 +14,9 @@ public class Dindin {
         this.sabor = sabor;
     }
 
-    public Dindin(String sabor, double valor, int quantidadeEstoque) {
+    public Dindin(String sabor, double custo, double valor, int quantidadeEstoque) {
         this.sabor = sabor;
+        this.custo = custo;
         this.valor = valor;
         this.quantidadeEstoque = quantidadeEstoque;
     }
@@ -49,6 +52,35 @@ public class Dindin {
     public void setQuantidadeEstoque(int quantidadeEstoque) {
         this.quantidadeEstoque = quantidadeEstoque;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Dindin other = (Dindin) obj;
+        if (Double.doubleToLongBits(this.custo) != Double.doubleToLongBits(other.custo)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.valor) != Double.doubleToLongBits(other.valor)) {
+            return false;
+        }
+        if (this.quantidadeEstoque != other.quantidadeEstoque) {
+            return false;
+        }
+        if (!Objects.equals(this.sabor, other.sabor)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
     @Override
     public String toString() {

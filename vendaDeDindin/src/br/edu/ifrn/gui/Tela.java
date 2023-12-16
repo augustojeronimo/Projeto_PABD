@@ -7,6 +7,8 @@ package br.edu.ifrn.gui;
 
 import br.edu.ifrn.banco.ConexaoDindin;
 import br.edu.ifrn.dominio.Dindin;
+import br.edu.ifrn.dominio.DindinVendido;
+import br.edu.ifrn.dominio.Venda;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -17,6 +19,9 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class Tela extends javax.swing.JFrame {
+    
+    private Venda venda;
+    
 
     DefaultTableModel modelo_dindinsSelecionados;
     DefaultTableModel modelo_dindinsEstoque;
@@ -26,15 +31,60 @@ public class Tela extends javax.swing.JFrame {
     public Tela() {
         initComponents();
         
-        modelo_dindinsSelecionados = (DefaultTableModel) tabela_dindinsSelecionados.getModel();
-        modelo_dindinsEstoque = (DefaultTableModel) tabela_estoqueDindins.getModel();
-        modelo_historicoVendas = (DefaultTableModel) tabela_historicoVendas.getModel();
-        
-        setPainelVisivel(painel_venda);
+        modelo_dindinsSelecionados = (DefaultTableModel) tabelaVenda_dindinsSelecionados.getModel();
+        modelo_dindinsEstoque = (DefaultTableModel) tabelaEstoque_estoqueDindins.getModel();
+        modelo_historicoVendas = (DefaultTableModel) tabelaHistorico_historicoVendas.getModel();
         
         preencherComboVenda();
+
+        resetVenda();
+        
+        setPainelVisivel(painel_fundo, painel_venda);
+        
     }
 
+    /* -/-/-/-/-/-/-/-/-/-/- Métodos para controle da interface gráfica -/-/-/-/-/-/-/-/-/-/- */
+    
+    private void setPainelVisivel(javax.swing.JPanel pai, javax.swing.JPanel filho) {
+        Component[] content = pai.getComponents();
+        
+        if (pai.isAncestorOf(filho)) {
+            for (Component c : content) {
+                c.setVisible(false);
+            }
+
+            filho.setVisible(true);
+        }
+    }
+    
+    /* -=-=-=-=- Métodos da tela de venda -=-=-=-=- */
+    
+    private void atualizarTotalVenda() {
+        String total = String.format("Total: %02.2f", venda.getValorTotal());
+        labelVenda_valorTotal.setText(total);
+        
+        SpinnerModel model = new SpinnerNumberModel(0, 0, venda.getValorTotal(), 0.05);
+        spinnerVenda_desconto.setModel(model);
+    }
+    
+    /* -=-=-=-=- Métodos da tela de estoque -=-=-=-=- */
+    
+    private void limparFormEstoque() {
+        campoEstoque_sabor.setText("");
+        spinnerEstoque_custo.setValue(0);
+        spinnerEstoque_quantidade.setValue(0);
+        spinnerEstoque_quantidade.setValue(0);
+        
+        tabelaVenda_dindinsSelecionados.clearSelection();
+    }
+    
+    
+    /* -=-=-=-=- Métodos da tela de histórico -=-=-=-=- */
+    
+    
+    
+    
+    /* -/-/-/-/-/-/-/-/-/-/- Código gerado automaticamente pela IDE -/-/-/-/-/-/-/-/-/-/- */
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,37 +97,37 @@ public class Tela extends javax.swing.JFrame {
         painel_fundo = new javax.swing.JPanel();
         painel_venda = new javax.swing.JPanel();
         painel_formSaborVenda = new javax.swing.JPanel();
-        botao_removerDindinVenda = new javax.swing.JButton();
-        botao_adicionarDindinVenda = new javax.swing.JButton();
-        spinner_quantidadeSabor = new javax.swing.JSpinner();
-        combo_saborDindin = new javax.swing.JComboBox<>();
+        botaoVenda_removerDindin = new javax.swing.JButton();
+        botaoVenda_adicionarDindin = new javax.swing.JButton();
+        spinnerVenda_quantidadeSabor = new javax.swing.JSpinner();
+        spinnerVenda_saborDindin = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabela_dindinsSelecionados = new javax.swing.JTable();
-        label_valorTotalVenda = new javax.swing.JLabel();
-        botao_executarVenda = new javax.swing.JButton();
-        botao_cancelarVenda = new javax.swing.JButton();
-        spinner_descontoVenda = new javax.swing.JSpinner();
+        tabelaVenda_dindinsSelecionados = new javax.swing.JTable();
+        labelVenda_valorTotal = new javax.swing.JLabel();
+        botaoVenda_executarVenda = new javax.swing.JButton();
+        botaoVenda_cancelarVenda = new javax.swing.JButton();
+        spinnerVenda_desconto = new javax.swing.JSpinner();
         painel_estoque = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tabela_estoqueDindins = new javax.swing.JTable();
+        tabelaEstoque_estoqueDindins = new javax.swing.JTable();
         painel_formDindin = new javax.swing.JPanel();
-        campo_sabor = new javax.swing.JTextField();
-        spinner_valor = new javax.swing.JSpinner();
-        spinner_custo = new javax.swing.JSpinner();
-        spinner_quantidade = new javax.swing.JSpinner();
-        botao_limparFormDindin = new javax.swing.JButton();
+        campoEstoque_sabor = new javax.swing.JTextField();
+        spinnerEstoque_valor = new javax.swing.JSpinner();
+        spinnerEstoque_custo = new javax.swing.JSpinner();
+        spinnerEstoque_quantidade = new javax.swing.JSpinner();
+        botaoEstoque_limparFormDindin = new javax.swing.JButton();
         painel_botoesDindin = new javax.swing.JPanel();
-        botao_cadastrarDindin = new javax.swing.JButton();
-        botao_atualizarDindin = new javax.swing.JButton();
-        botao_removerDindin = new javax.swing.JButton();
-        botao_consultarDindins = new javax.swing.JButton();
+        botaoEstoque_cadastrarDindin = new javax.swing.JButton();
+        botaoEstoque_atualizarDindin = new javax.swing.JButton();
+        botaoEstoque_removerDindin = new javax.swing.JButton();
+        botaoEstoque_consultarDindins = new javax.swing.JButton();
         painel_historico = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tabela_historicoVendas = new javax.swing.JTable();
+        tabelaHistorico_historicoVendas = new javax.swing.JTable();
         painel_botoesHistorico = new javax.swing.JPanel();
-        botao_restaurarVenda = new javax.swing.JButton();
-        botao_indeferirVenda = new javax.swing.JButton();
-        botao_gerarRelatorio = new javax.swing.JButton();
+        botaoHistorico_restaurarVenda = new javax.swing.JButton();
+        botaoHistorico_indeferirVenda = new javax.swing.JButton();
+        botaoHistorico_gerarRelatorio = new javax.swing.JButton();
         menuBarra = new javax.swing.JMenuBar();
         menu_telas = new javax.swing.JMenu();
         itemMenu_venda = new javax.swing.JMenuItem();
@@ -86,37 +136,38 @@ public class Tela extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gerenciamento de dindins");
+        setIconImages(null);
 
         painel_fundo.setLayout(new java.awt.CardLayout());
 
         painel_venda.setBackground(new java.awt.Color(255, 255, 255));
         painel_venda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Venda", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        botao_removerDindinVenda.setText("Remover");
-        botao_removerDindinVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botao_removerDindinVenda.setEnabled(false);
-        botao_removerDindinVenda.addActionListener(new java.awt.event.ActionListener() {
+        botaoVenda_removerDindin.setText("Remover");
+        botaoVenda_removerDindin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoVenda_removerDindin.setEnabled(false);
+        botaoVenda_removerDindin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botao_removerDindinVendaActionPerformed(evt);
+                botaoVenda_removerDindinActionPerformed(evt);
             }
         });
 
-        botao_adicionarDindinVenda.setText("Adicionar");
-        botao_adicionarDindinVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botao_adicionarDindinVenda.addActionListener(new java.awt.event.ActionListener() {
+        botaoVenda_adicionarDindin.setText("Adicionar");
+        botaoVenda_adicionarDindin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoVenda_adicionarDindin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botao_adicionarDindinVendaActionPerformed(evt);
+                botaoVenda_adicionarDindinActionPerformed(evt);
             }
         });
 
-        spinner_quantidadeSabor.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1, 1));
-        spinner_quantidadeSabor.setToolTipText("Quantidade do sabor definido");
+        spinnerVenda_quantidadeSabor.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1, 1));
+        spinnerVenda_quantidadeSabor.setToolTipText("Quantidade do sabor definido");
 
-        combo_saborDindin.setToolTipText("Sabor do dindin");
-        combo_saborDindin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        combo_saborDindin.addActionListener(new java.awt.event.ActionListener() {
+        spinnerVenda_saborDindin.setToolTipText("Sabor do dindin");
+        spinnerVenda_saborDindin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        spinnerVenda_saborDindin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combo_saborDindinActionPerformed(evt);
+                spinnerVenda_saborDindinActionPerformed(evt);
             }
         });
 
@@ -126,13 +177,13 @@ public class Tela extends javax.swing.JFrame {
             painel_formSaborVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painel_formSaborVendaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(combo_saborDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(spinnerVenda_saborDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(spinner_quantidadeSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(spinnerVenda_quantidadeSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(botao_adicionarDindinVenda)
+                .addComponent(botaoVenda_adicionarDindin)
                 .addGap(18, 18, 18)
-                .addComponent(botao_removerDindinVenda)
+                .addComponent(botaoVenda_removerDindin)
                 .addContainerGap())
         );
         painel_formSaborVendaLayout.setVerticalGroup(
@@ -140,16 +191,16 @@ public class Tela extends javax.swing.JFrame {
             .addGroup(painel_formSaborVendaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(painel_formSaborVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(combo_saborDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spinner_quantidadeSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botao_adicionarDindinVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botao_removerDindinVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spinnerVenda_saborDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerVenda_quantidadeSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botaoVenda_adicionarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botaoVenda_removerDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dindins selecionados"));
 
-        tabela_dindinsSelecionados.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaVenda_dindinsSelecionados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -165,41 +216,44 @@ public class Tela extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tabela_dindinsSelecionados.setSelectionBackground(new java.awt.Color(102, 153, 255));
-        tabela_dindinsSelecionados.setShowVerticalLines(false);
-        tabela_dindinsSelecionados.getTableHeader().setReorderingAllowed(false);
-        tabela_dindinsSelecionados.getTableHeader().setBorder(new LineBorder(Color.BLACK, 1));
-        tabela_dindinsSelecionados.addFocusListener(new java.awt.event.FocusAdapter() {
+        tabelaVenda_dindinsSelecionados.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tabelaVenda_dindinsSelecionados.setSelectionBackground(new java.awt.Color(102, 153, 255));
+        tabelaVenda_dindinsSelecionados.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabelaVenda_dindinsSelecionados.setShowVerticalLines(false);
+        tabelaVenda_dindinsSelecionados.getTableHeader().setReorderingAllowed(false);
+        tabelaVenda_dindinsSelecionados.getTableHeader().setBorder(new LineBorder(Color.BLACK, 1));
+        tabelaVenda_dindinsSelecionados.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                tabela_dindinsSelecionadosFocusGained(evt);
+                tabelaVenda_dindinsSelecionadosFocusGained(evt);
             }
         });
-        jScrollPane1.setViewportView(tabela_dindinsSelecionados);
+        jScrollPane1.setViewportView(tabelaVenda_dindinsSelecionados);
 
-        label_valorTotalVenda.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        label_valorTotalVenda.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        label_valorTotalVenda.setText("Total:");
+        labelVenda_valorTotal.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        labelVenda_valorTotal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        labelVenda_valorTotal.setText("Total:");
 
-        botao_executarVenda.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        botao_executarVenda.setText("Executar venda");
-        botao_executarVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botao_executarVenda.addActionListener(new java.awt.event.ActionListener() {
+        botaoVenda_executarVenda.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        botaoVenda_executarVenda.setText("Executar venda");
+        botaoVenda_executarVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoVenda_executarVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botao_executarVendaActionPerformed(evt);
+                botaoVenda_executarVendaActionPerformed(evt);
             }
         });
 
-        botao_cancelarVenda.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        botao_cancelarVenda.setText("Cancelar venda");
-        botao_cancelarVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botao_cancelarVenda.addActionListener(new java.awt.event.ActionListener() {
+        botaoVenda_cancelarVenda.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        botaoVenda_cancelarVenda.setText("Cancelar venda");
+        botaoVenda_cancelarVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoVenda_cancelarVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botao_cancelarVendaActionPerformed(evt);
+                botaoVenda_cancelarVendaActionPerformed(evt);
             }
         });
 
-        spinner_descontoVenda.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 99.99d, 0.05d));
-        spinner_descontoVenda.setBorder(javax.swing.BorderFactory.createTitledBorder("Desconto"));
+        spinnerVenda_desconto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        spinnerVenda_desconto.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 99.99d, 0.05d));
+        spinnerVenda_desconto.setBorder(javax.swing.BorderFactory.createTitledBorder("Desconto"));
 
         javax.swing.GroupLayout painel_vendaLayout = new javax.swing.GroupLayout(painel_venda);
         painel_venda.setLayout(painel_vendaLayout);
@@ -211,13 +265,13 @@ public class Tela extends javax.swing.JFrame {
                     .addComponent(painel_formSaborVenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
                     .addGroup(painel_vendaLayout.createSequentialGroup()
-                        .addComponent(label_valorTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelVenda_valorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinner_descontoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(spinnerVenda_desconto, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(botao_cancelarVenda)
+                        .addComponent(botaoVenda_cancelarVenda)
                         .addGap(18, 18, 18)
-                        .addComponent(botao_executarVenda)))
+                        .addComponent(botaoVenda_executarVenda)))
                 .addContainerGap())
         );
         painel_vendaLayout.setVerticalGroup(
@@ -229,10 +283,10 @@ public class Tela extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(painel_vendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botao_cancelarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botao_executarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spinner_descontoVenda, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label_valorTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botaoVenda_cancelarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botaoVenda_executarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerVenda_desconto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelVenda_valorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -240,11 +294,11 @@ public class Tela extends javax.swing.JFrame {
 
         painel_estoque.setBackground(new java.awt.Color(255, 255, 255));
         painel_estoque.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estoque", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-        painel_estoque.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        painel_estoque.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Dindins em estoque"));
 
-        tabela_estoqueDindins.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaEstoque_estoqueDindins.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -260,22 +314,29 @@ public class Tela extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tabela_estoqueDindins.setSelectionBackground(new java.awt.Color(102, 153, 255));
-        tabela_estoqueDindins.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(tabela_estoqueDindins);
+        tabelaEstoque_estoqueDindins.setSelectionBackground(new java.awt.Color(102, 153, 255));
+        tabelaEstoque_estoqueDindins.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabelaEstoque_estoqueDindins.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tabelaEstoque_estoqueDindins);
 
-        campo_sabor.setBorder(javax.swing.BorderFactory.createTitledBorder("Sabor"));
+        campoEstoque_sabor.setBorder(javax.swing.BorderFactory.createTitledBorder("Sabor"));
 
-        spinner_valor.setModel(new javax.swing.SpinnerNumberModel(1.0d, 0.5d, 99.99d, 0.25d));
-        spinner_valor.setBorder(javax.swing.BorderFactory.createTitledBorder("Valor"));
+        spinnerEstoque_valor.setModel(new javax.swing.SpinnerNumberModel(1.0d, 0.5d, 99.99d, 0.25d));
+        spinnerEstoque_valor.setBorder(javax.swing.BorderFactory.createTitledBorder("Valor"));
 
-        spinner_custo.setModel(new javax.swing.SpinnerNumberModel(1.0d, 0.01d, 99.99d, 0.01d));
-        spinner_custo.setBorder(javax.swing.BorderFactory.createTitledBorder("Custo"));
+        spinnerEstoque_custo.setModel(new javax.swing.SpinnerNumberModel(1.0d, 0.01d, 99.99d, 0.01d));
+        spinnerEstoque_custo.setBorder(javax.swing.BorderFactory.createTitledBorder("Custo"));
 
-        spinner_quantidade.setModel(new javax.swing.SpinnerNumberModel(1, 0, null, 1));
-        spinner_quantidade.setBorder(javax.swing.BorderFactory.createTitledBorder("Quantidade"));
+        spinnerEstoque_quantidade.setModel(new javax.swing.SpinnerNumberModel(1, 0, null, 1));
+        spinnerEstoque_quantidade.setBorder(javax.swing.BorderFactory.createTitledBorder("Quantidade"));
 
-        botao_limparFormDindin.setText("Limpar campos");
+        botaoEstoque_limparFormDindin.setText("Limpar campos");
+        botaoEstoque_limparFormDindin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoEstoque_limparFormDindin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoEstoque_limparFormDindinActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout painel_formDindinLayout = new javax.swing.GroupLayout(painel_formDindin);
         painel_formDindin.setLayout(painel_formDindinLayout);
@@ -285,16 +346,16 @@ public class Tela extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(painel_formDindinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_formDindinLayout.createSequentialGroup()
-                        .addComponent(campo_sabor)
+                        .addComponent(campoEstoque_sabor)
                         .addGap(18, 18, 18)
-                        .addComponent(spinner_custo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(spinnerEstoque_custo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinner_valor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(spinnerEstoque_valor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinner_quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(spinnerEstoque_quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_formDindinLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(botao_limparFormDindin)))
+                        .addComponent(botaoEstoque_limparFormDindin)))
                 .addContainerGap())
         );
         painel_formDindinLayout.setVerticalGroup(
@@ -302,24 +363,41 @@ public class Tela extends javax.swing.JFrame {
             .addGroup(painel_formDindinLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(painel_formDindinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campo_sabor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spinner_valor)
-                    .addComponent(spinner_custo)
-                    .addComponent(spinner_quantidade))
+                    .addComponent(campoEstoque_sabor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerEstoque_valor)
+                    .addComponent(spinnerEstoque_custo)
+                    .addComponent(spinnerEstoque_quantidade))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(botao_limparFormDindin)
+                .addComponent(botaoEstoque_limparFormDindin)
                 .addContainerGap())
         );
 
-        botao_cadastrarDindin.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        botao_cadastrarDindin.setText("Cadastrar");
+        botaoEstoque_cadastrarDindin.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        botaoEstoque_cadastrarDindin.setText("Cadastrar");
+        botaoEstoque_cadastrarDindin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoEstoque_cadastrarDindin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoEstoque_cadastrarDindinActionPerformed(evt);
+            }
+        });
 
-        botao_atualizarDindin.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        botao_atualizarDindin.setText("Atualizar");
+        botaoEstoque_atualizarDindin.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        botaoEstoque_atualizarDindin.setText("Atualizar");
+        botaoEstoque_atualizarDindin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoEstoque_atualizarDindin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoEstoque_atualizarDindinActionPerformed(evt);
+            }
+        });
 
-        botao_removerDindin.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        botao_removerDindin.setText("Remover");
-        botao_removerDindin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoEstoque_removerDindin.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        botaoEstoque_removerDindin.setText("Remover");
+        botaoEstoque_removerDindin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoEstoque_removerDindin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoEstoque_removerDindinActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout painel_botoesDindinLayout = new javax.swing.GroupLayout(painel_botoesDindin);
         painel_botoesDindin.setLayout(painel_botoesDindinLayout);
@@ -327,11 +405,11 @@ public class Tela extends javax.swing.JFrame {
             painel_botoesDindinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painel_botoesDindinLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(botao_cadastrarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botaoEstoque_cadastrarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 42, Short.MAX_VALUE)
-                .addComponent(botao_atualizarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botaoEstoque_atualizarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 43, Short.MAX_VALUE)
-                .addComponent(botao_removerDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botaoEstoque_removerDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         painel_botoesDindinLayout.setVerticalGroup(
@@ -339,13 +417,19 @@ public class Tela extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_botoesDindinLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(painel_botoesDindinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botao_cadastrarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botao_atualizarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botao_removerDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botaoEstoque_cadastrarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botaoEstoque_atualizarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botaoEstoque_removerDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        botao_consultarDindins.setText("recarregar dados");
+        botaoEstoque_consultarDindins.setText("recarregar dados");
+        botaoEstoque_consultarDindins.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoEstoque_consultarDindins.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoEstoque_consultarDindinsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout painel_estoqueLayout = new javax.swing.GroupLayout(painel_estoque);
         painel_estoque.setLayout(painel_estoqueLayout);
@@ -354,7 +438,7 @@ public class Tela extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_estoqueLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(painel_estoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(botao_consultarDindins)
+                    .addComponent(botaoEstoque_consultarDindins)
                     .addComponent(painel_formDindin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(painel_botoesDindin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -368,7 +452,7 @@ public class Tela extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(botao_consultarDindins)
+                .addComponent(botaoEstoque_consultarDindins)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(painel_botoesDindin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -381,7 +465,7 @@ public class Tela extends javax.swing.JFrame {
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder("Histórico de vendas"));
 
-        tabela_historicoVendas.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaHistorico_historicoVendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -397,18 +481,20 @@ public class Tela extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tabela_historicoVendas.setSelectionBackground(new java.awt.Color(102, 153, 255));
-        tabela_historicoVendas.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(tabela_historicoVendas);
+        tabelaHistorico_historicoVendas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tabelaHistorico_historicoVendas.setSelectionBackground(new java.awt.Color(102, 153, 255));
+        tabelaHistorico_historicoVendas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabelaHistorico_historicoVendas.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(tabelaHistorico_historicoVendas);
 
-        botao_restaurarVenda.setText("Restaurar venda");
-        botao_restaurarVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoHistorico_restaurarVenda.setText("Restaurar venda");
+        botaoHistorico_restaurarVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        botao_indeferirVenda.setText("Indeferir venda");
-        botao_indeferirVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoHistorico_indeferirVenda.setText("Indeferir venda");
+        botaoHistorico_indeferirVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        botao_gerarRelatorio.setText("Gerar relatório");
-        botao_gerarRelatorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoHistorico_gerarRelatorio.setText("Gerar relatório");
+        botaoHistorico_gerarRelatorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout painel_botoesHistoricoLayout = new javax.swing.GroupLayout(painel_botoesHistorico);
         painel_botoesHistorico.setLayout(painel_botoesHistoricoLayout);
@@ -416,11 +502,11 @@ public class Tela extends javax.swing.JFrame {
             painel_botoesHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_botoesHistoricoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(botao_gerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botaoHistorico_gerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(botao_indeferirVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botaoHistorico_indeferirVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botao_restaurarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botaoHistorico_restaurarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         painel_botoesHistoricoLayout.setVerticalGroup(
@@ -428,9 +514,9 @@ public class Tela extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_botoesHistoricoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(painel_botoesHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botao_restaurarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botao_indeferirVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botao_gerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botaoHistorico_restaurarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botaoHistorico_indeferirVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botaoHistorico_gerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -502,29 +588,35 @@ public class Tela extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /* -/-/-/-/-/-/-/-/-/-/- Métodos de ação dos elementos -/-/-/-/-/-/-/-/-/-/- */
+    
     private void itemMenu_vendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenu_vendaActionPerformed
-        setPainelVisivel(painel_venda);
+        setPainelVisivel(painel_fundo, painel_venda);
     }//GEN-LAST:event_itemMenu_vendaActionPerformed
 
     private void itemMenu_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenu_estoqueActionPerformed
-        setPainelVisivel(painel_estoque);
+        setPainelVisivel(painel_fundo, painel_estoque);
     }//GEN-LAST:event_itemMenu_estoqueActionPerformed
 
     private void itemMenu_historicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenu_historicoActionPerformed
-        setPainelVisivel(painel_historico);
+        setPainelVisivel(painel_fundo, painel_historico);
     }//GEN-LAST:event_itemMenu_historicoActionPerformed
 
-    private void botao_executarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_executarVendaActionPerformed
+    private void botaoVenda_executarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVenda_executarVendaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_botao_executarVendaActionPerformed
+    }//GEN-LAST:event_botaoVenda_executarVendaActionPerformed
 
-    private void botao_adicionarDindinVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_adicionarDindinVendaActionPerformed
+    private void botaoVenda_adicionarDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVenda_adicionarDindinActionPerformed
         ConexaoDindin cd = new ConexaoDindin();
         
-        String sabor = (String) combo_saborDindin.getSelectedItem();
-        int quantidade = (int) spinner_quantidadeSabor.getValue();
+        String sabor = (String) spinnerVenda_saborDindin.getSelectedItem();
         
+        int quantidade = (int) spinnerVenda_quantidadeSabor.getValue();
         Dindin d = cd.selectDindin(sabor);
+        
+        DindinVendido dv = new DindinVendido(d, quantidade);
+        
+        venda.addDindinVendido(dv);
         
         modelo_dindinsSelecionados.addRow(new Object[]{
             d.getSabor(),
@@ -533,88 +625,165 @@ public class Tela extends javax.swing.JFrame {
             d.getValor()*quantidade
         });
         
-        combo_saborDindin.removeItem(sabor);
-    }//GEN-LAST:event_botao_adicionarDindinVendaActionPerformed
+        spinnerVenda_saborDindin.removeItem(sabor);
+        
+        atualizarTotalVenda();
+    }//GEN-LAST:event_botaoVenda_adicionarDindinActionPerformed
 
-    private void combo_saborDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_saborDindinActionPerformed
-        definirMaximoVenda();
-    }//GEN-LAST:event_combo_saborDindinActionPerformed
-
-    private void botao_removerDindinVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_removerDindinVendaActionPerformed
+    private void spinnerVenda_saborDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spinnerVenda_saborDindinActionPerformed
+        String sabor = String.valueOf(spinnerVenda_saborDindin.getSelectedItem());
         
-        int linha = tabela_dindinsSelecionados.getSelectedRow();
-        
-        if (linha >= 0) {
-            String sabor =(String) tabela_dindinsSelecionados.getValueAt(linha, 0);
-        
-            combo_saborDindin.addItem(sabor);
-
-            modelo_dindinsSelecionados.removeRow(linha);
-
-            botao_removerDindinVenda.setEnabled(false);
-            botao_adicionarDindinVenda.setEnabled(true);
-        }
-    }//GEN-LAST:event_botao_removerDindinVendaActionPerformed
-
-    private void tabela_dindinsSelecionadosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabela_dindinsSelecionadosFocusGained
-        botao_removerDindinVenda.setEnabled(true);
-    }//GEN-LAST:event_tabela_dindinsSelecionadosFocusGained
-
-    private void botao_cancelarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_cancelarVendaActionPerformed
-        
-        modelo_dindinsSelecionados.setNumRows(0);
-        
-        preencherComboVenda();
-        
-        botao_adicionarDindinVenda.setEnabled(true);
-        botao_removerDindinVenda.setEnabled(false);
-        
-        label_valorTotalVenda.setText("Total:");
-        
-        spinner_descontoVenda.setValue(0);
-        
-    }//GEN-LAST:event_botao_cancelarVendaActionPerformed
-
-    private void setPainelVisivel(javax.swing.JPanel painel) {
-        Component[] content = painel_fundo.getComponents();
-        
-        for (Component c : content) {
-            c.setVisible(false);
-        }
-        
-        painel.setVisible(true);
-    }
-    
-    private void preencherComboVenda() {
-        ArrayList<Dindin> lista = new ConexaoDindin().selectDindins();
-        
-        combo_saborDindin.removeAllItems();
-        
-        for (Dindin d : lista) {
-            if (d.getQuantidadeEstoque() > 0) {
-                combo_saborDindin.addItem(d.getSabor());
-            }
-        }
-    }
-    
-    private void definirMaximoVenda() {
-        String sabor = String.valueOf(combo_saborDindin.getSelectedItem());
-        
-        
-        if (combo_saborDindin.getSelectedItem() == null) {
+        if (spinnerVenda_saborDindin.getSelectedItem() == null) {
             
-            botao_adicionarDindinVenda.setEnabled(false);
-            spinner_quantidadeSabor.setValue(0);
+            botaoVenda_adicionarDindin.setEnabled(false);
+            spinnerVenda_quantidadeSabor.setValue(0);
             
         } else {
             Dindin d = new ConexaoDindin().selectDindin(sabor);
         
             SpinnerModel model = new SpinnerNumberModel(1, 1, d.getQuantidadeEstoque(), 1);
 
-            spinner_quantidadeSabor.setModel(model);
+            spinnerVenda_quantidadeSabor.setModel(model);
         }
+    }//GEN-LAST:event_spinnerVenda_saborDindinActionPerformed
+
+    private void botaoVenda_removerDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVenda_removerDindinActionPerformed
+        // captura a linha selecionada na tabela
+        int linha = tabelaVenda_dindinsSelecionados.getSelectedRow();
         
+        // se houver linha selecionada
+        if (linha >= 0) {
+            // captura o sabor referenciado na linha
+            String sabor =(String) tabelaVenda_dindinsSelecionados.getValueAt(linha, 0);
+            //adiciona esse sabor de volta como escolha
+            spinnerVenda_saborDindin.addItem(sabor);
+            
+            ConexaoDindin cd = new ConexaoDindin();
+            
+            Dindin d = cd.selectDindin(sabor);
+            int quantidade = (int) modelo_dindinsSelecionados.getValueAt(linha, 1);
+            
+            DindinVendido dv = new DindinVendido(d, quantidade);
+            
+            venda.removerDindinVendido(dv);
+            
+            modelo_dindinsSelecionados.removeRow(linha);
+            
+            atualizarTotalVenda();
+
+            botaoVenda_removerDindin.setEnabled(false);
+            botaoVenda_adicionarDindin.setEnabled(true);
+        }
+    }//GEN-LAST:event_botaoVenda_removerDindinActionPerformed
+
+    private void tabelaVenda_dindinsSelecionadosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabelaVenda_dindinsSelecionadosFocusGained
+        botaoVenda_removerDindin.setEnabled(true);
+    }//GEN-LAST:event_tabelaVenda_dindinsSelecionadosFocusGained
+
+    private void botaoVenda_cancelarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVenda_cancelarVendaActionPerformed
+        resetVenda();
+    }//GEN-LAST:event_botaoVenda_cancelarVendaActionPerformed
+
+    private void botaoEstoque_cadastrarDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEstoque_cadastrarDindinActionPerformed
+        String sabor = campoEstoque_sabor.getText().toLowerCase();
+        double custo = (double) spinnerEstoque_custo.getValue();
+        double valor = (double) spinnerEstoque_valor.getValue();
+        int quantidadeEstoque = (int) spinnerEstoque_quantidade.getValue();
+        
+        Dindin d = new Dindin(sabor, custo, valor, quantidadeEstoque);
+        
+        ConexaoDindin cd = new ConexaoDindin();
+        cd.insert(d);
+        
+        atualizarTabelaEstoque();
+    }//GEN-LAST:event_botaoEstoque_cadastrarDindinActionPerformed
+
+    private void botaoEstoque_atualizarDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEstoque_atualizarDindinActionPerformed
+        String sabor = campoEstoque_sabor.getText().toLowerCase();
+        double custo = (double) spinnerEstoque_custo.getValue();
+        double valor = (double) spinnerEstoque_valor.getValue();
+        int quantidadeEstoque = (int) spinnerEstoque_quantidade.getValue();
+        
+        Dindin d = new Dindin(sabor, custo, valor, quantidadeEstoque);
+        
+        ConexaoDindin cd = new ConexaoDindin();
+        cd.update(d);
+        
+        atualizarTabelaEstoque();
+    }//GEN-LAST:event_botaoEstoque_atualizarDindinActionPerformed
+
+    private void botaoEstoque_removerDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEstoque_removerDindinActionPerformed
+        String sabor = campoEstoque_sabor.getText().toLowerCase();
+        
+        Dindin d = new Dindin(sabor);
+        
+        ConexaoDindin cd = new ConexaoDindin();
+        cd.delete(d);
+        
+        atualizarTabelaEstoque();
+    }//GEN-LAST:event_botaoEstoque_removerDindinActionPerformed
+
+    private void botaoEstoque_consultarDindinsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEstoque_consultarDindinsActionPerformed
+        atualizarTabelaEstoque();
+    }//GEN-LAST:event_botaoEstoque_consultarDindinsActionPerformed
+
+    private void botaoEstoque_limparFormDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEstoque_limparFormDindinActionPerformed
+        limparFormEstoque();
+    }//GEN-LAST:event_botaoEstoque_limparFormDindinActionPerformed
+
+    /* -/-/-/-/-/-/-/-/-/-/- Métodos relacionados ao banco de dados -/-/-/-/-/-/-/-/-/-/- */
+    
+    /* -=-=-=-=- Métodos da tela de venda -=-=-=-=- */
+    private void preencherComboVenda() {
+        ArrayList<Dindin> lista = new ConexaoDindin().selectDindins();
+        
+        spinnerVenda_saborDindin.removeAllItems();
+        
+        for (Dindin d : lista) {
+            if (d.getQuantidadeEstoque() > 0) {
+                spinnerVenda_saborDindin.addItem(d.getSabor());
+            }
+        }
     }
+    
+    private void resetVenda() {
+        modelo_dindinsSelecionados.setNumRows(0);
+        
+        preencherComboVenda();
+        
+        botaoVenda_adicionarDindin.setEnabled(true);
+        botaoVenda_removerDindin.setEnabled(false);
+        
+        venda = new Venda();
+        
+        atualizarTotalVenda();
+        spinnerVenda_desconto.setValue(0);
+    }
+    
+    /* -=-=-=-=- Métodos da tela de estoque -=-=-=-=- */
+    
+    private void atualizarTabelaEstoque() {
+        ConexaoDindin cd = new ConexaoDindin();
+        
+        modelo_dindinsEstoque.setNumRows(0);
+        
+        ArrayList<Dindin> lista = cd.selectDindins();
+        
+        lista.forEach((d) -> {
+            modelo_dindinsEstoque.addRow(new Object[]{
+                d.getSabor(),
+                d.getCusto(),
+                d.getValor(),
+                d.getQuantidadeEstoque()
+            });
+        });
+    }
+    
+    /* -=-=-=-=- Métodos da tela de histórico -=-=-=-=- */
+    
+    
+    
+    /* -/-/-/-/-/-/- Método principal e declaração dos elementos da interface -/-/-/-/-/-/- */
     
     /**
      * @param args the command line arguments
@@ -652,27 +821,26 @@ public class Tela extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botao_adicionarDindinVenda;
-    private javax.swing.JButton botao_atualizarDindin;
-    private javax.swing.JButton botao_cadastrarDindin;
-    private javax.swing.JButton botao_cancelarVenda;
-    private javax.swing.JButton botao_consultarDindins;
-    private javax.swing.JButton botao_executarVenda;
-    private javax.swing.JButton botao_gerarRelatorio;
-    private javax.swing.JButton botao_indeferirVenda;
-    private javax.swing.JButton botao_limparFormDindin;
-    private javax.swing.JButton botao_removerDindin;
-    private javax.swing.JButton botao_removerDindinVenda;
-    private javax.swing.JButton botao_restaurarVenda;
-    private javax.swing.JTextField campo_sabor;
-    private javax.swing.JComboBox<String> combo_saborDindin;
+    private javax.swing.JButton botaoEstoque_atualizarDindin;
+    private javax.swing.JButton botaoEstoque_cadastrarDindin;
+    private javax.swing.JButton botaoEstoque_consultarDindins;
+    private javax.swing.JButton botaoEstoque_limparFormDindin;
+    private javax.swing.JButton botaoEstoque_removerDindin;
+    private javax.swing.JButton botaoHistorico_gerarRelatorio;
+    private javax.swing.JButton botaoHistorico_indeferirVenda;
+    private javax.swing.JButton botaoHistorico_restaurarVenda;
+    private javax.swing.JButton botaoVenda_adicionarDindin;
+    private javax.swing.JButton botaoVenda_cancelarVenda;
+    private javax.swing.JButton botaoVenda_executarVenda;
+    private javax.swing.JButton botaoVenda_removerDindin;
+    private javax.swing.JTextField campoEstoque_sabor;
     private javax.swing.JMenuItem itemMenu_estoque;
     private javax.swing.JMenuItem itemMenu_historico;
     private javax.swing.JMenuItem itemMenu_venda;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel label_valorTotalVenda;
+    private javax.swing.JLabel labelVenda_valorTotal;
     private javax.swing.JMenuBar menuBarra;
     private javax.swing.JMenu menu_telas;
     private javax.swing.JPanel painel_botoesDindin;
@@ -683,13 +851,14 @@ public class Tela extends javax.swing.JFrame {
     private javax.swing.JPanel painel_fundo;
     private javax.swing.JPanel painel_historico;
     private javax.swing.JPanel painel_venda;
-    private javax.swing.JSpinner spinner_custo;
-    private javax.swing.JSpinner spinner_descontoVenda;
-    private javax.swing.JSpinner spinner_quantidade;
-    private javax.swing.JSpinner spinner_quantidadeSabor;
-    private javax.swing.JSpinner spinner_valor;
-    private javax.swing.JTable tabela_dindinsSelecionados;
-    private javax.swing.JTable tabela_estoqueDindins;
-    private javax.swing.JTable tabela_historicoVendas;
+    private javax.swing.JSpinner spinnerEstoque_custo;
+    private javax.swing.JSpinner spinnerEstoque_quantidade;
+    private javax.swing.JSpinner spinnerEstoque_valor;
+    private javax.swing.JSpinner spinnerVenda_desconto;
+    private javax.swing.JSpinner spinnerVenda_quantidadeSabor;
+    private javax.swing.JComboBox<String> spinnerVenda_saborDindin;
+    private javax.swing.JTable tabelaEstoque_estoqueDindins;
+    private javax.swing.JTable tabelaHistorico_historicoVendas;
+    private javax.swing.JTable tabelaVenda_dindinsSelecionados;
     // End of variables declaration//GEN-END:variables
 }
