@@ -11,6 +11,7 @@ import br.edu.ifrn.dominio.DindinVendido;
 import br.edu.ifrn.dominio.Venda;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
@@ -60,7 +61,7 @@ public class Tela extends javax.swing.JFrame {
     /* -=-=-=-=- Métodos da tela de venda -=-=-=-=- */
     
     private void atualizarTotalVenda() {
-        String total = String.format("Total: %02.2f", venda.getValorTotal());
+        String total = String.format("Total: %.02f", venda.getValorTotal());
         labelVenda_valorTotal.setText(total);
         
         SpinnerModel model = new SpinnerNumberModel(0, 0, venda.getValorTotal(), 0.05);
@@ -71,11 +72,11 @@ public class Tela extends javax.swing.JFrame {
     
     private void limparFormEstoque() {
         campoEstoque_sabor.setText("");
-        spinnerEstoque_custo.setValue(0);
-        spinnerEstoque_quantidade.setValue(0);
-        spinnerEstoque_quantidade.setValue(0);
+        spinnerEstoque_custo.setValue(1);
+        spinnerEstoque_valor.setValue(1);
+        spinnerEstoque_quantidade.setValue(1);
         
-        tabelaVenda_dindinsSelecionados.clearSelection();
+        tabelaEstoque_estoqueDindins.clearSelection();
     }
     
     
@@ -160,6 +161,7 @@ public class Tela extends javax.swing.JFrame {
             }
         });
 
+        spinnerVenda_quantidadeSabor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         spinnerVenda_quantidadeSabor.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1, 1));
         spinnerVenda_quantidadeSabor.setToolTipText("Quantidade do sabor definido");
 
@@ -280,7 +282,7 @@ public class Tela extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(painel_formSaborVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(painel_vendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(botaoVenda_cancelarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -317,6 +319,11 @@ public class Tela extends javax.swing.JFrame {
         tabelaEstoque_estoqueDindins.setSelectionBackground(new java.awt.Color(102, 153, 255));
         tabelaEstoque_estoqueDindins.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tabelaEstoque_estoqueDindins.getTableHeader().setReorderingAllowed(false);
+        tabelaEstoque_estoqueDindins.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaEstoque_estoqueDindinsMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabelaEstoque_estoqueDindins);
 
         campoEstoque_sabor.setBorder(javax.swing.BorderFactory.createTitledBorder("Sabor"));
@@ -596,6 +603,7 @@ public class Tela extends javax.swing.JFrame {
 
     private void itemMenu_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenu_estoqueActionPerformed
         setPainelVisivel(painel_fundo, painel_estoque);
+        atualizarTabelaEstoque();
     }//GEN-LAST:event_itemMenu_estoqueActionPerformed
 
     private void itemMenu_historicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenu_historicoActionPerformed
@@ -730,6 +738,22 @@ public class Tela extends javax.swing.JFrame {
     private void botaoEstoque_limparFormDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEstoque_limparFormDindinActionPerformed
         limparFormEstoque();
     }//GEN-LAST:event_botaoEstoque_limparFormDindinActionPerformed
+
+    private void tabelaEstoque_estoqueDindinsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaEstoque_estoqueDindinsMouseClicked
+        int linha = tabelaEstoque_estoqueDindins.getSelectedRow();
+        
+        if (linha > 0 && evt.getButton() == MouseEvent.BUTTON1) {
+            String sabor = (String) tabelaEstoque_estoqueDindins.getValueAt(linha, 0);
+            double custo = (double) tabelaEstoque_estoqueDindins.getValueAt(linha, 1);
+            double valor = (double) tabelaEstoque_estoqueDindins.getValueAt(linha, 2);
+            int quantidade = (int) tabelaEstoque_estoqueDindins.getValueAt(linha, 3);
+            
+            campoEstoque_sabor.setText(sabor);
+            spinnerEstoque_custo.setValue(custo);
+            spinnerEstoque_valor.setValue(valor);
+            spinnerEstoque_quantidade.setValue(quantidade);
+        }
+    }//GEN-LAST:event_tabelaEstoque_estoqueDindinsMouseClicked
 
     /* -/-/-/-/-/-/-/-/-/-/- Métodos relacionados ao banco de dados -/-/-/-/-/-/-/-/-/-/- */
     

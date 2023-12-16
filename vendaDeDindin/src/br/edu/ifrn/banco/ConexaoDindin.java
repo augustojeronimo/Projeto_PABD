@@ -64,7 +64,13 @@ public class ConexaoDindin extends ConexaoBD {
             
             JOptionPane.showMessageDialog(null, "Removido com sucesso!");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao remover...");
+            
+            if (ex.getMessage().contains("foreign key")) {
+                JOptionPane.showMessageDialog(null, "Erro ao remover...\n[não é possível remover dindins que constam em vendas]");
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao remover...");
+            }
+            
         } finally {
             fecharConexao();
         }
