@@ -18,6 +18,8 @@ public class Tela extends javax.swing.JFrame {
      */
     public Tela() {
         initComponents();
+        
+        setPainelVisivel(painel_venda);
     }
 
     /**
@@ -31,15 +33,37 @@ public class Tela extends javax.swing.JFrame {
 
         painel_fundo = new javax.swing.JPanel();
         painel_venda = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        painel_formSaborVenda = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        spiner_quantidadeSabor = new javax.swing.JSpinner();
+        spinner_quantidadeSabor = new javax.swing.JSpinner();
         combo_saborDindin = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela_dindinsSelecionados = new javax.swing.JTable();
+        label_valorTotalVenda = new javax.swing.JLabel();
+        botao_executarVenda = new javax.swing.JButton();
+        botao_cancelarVenda = new javax.swing.JButton();
         painel_estoque = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabela_estoqueDindins = new javax.swing.JTable();
+        painel_formDindin = new javax.swing.JPanel();
+        campo_sabor = new javax.swing.JTextField();
+        spinner_valor = new javax.swing.JSpinner();
+        spinner_custo = new javax.swing.JSpinner();
+        spinner_quantidade = new javax.swing.JSpinner();
+        botao_limparFormDindin = new javax.swing.JButton();
+        painel_botoesDindin = new javax.swing.JPanel();
+        botao_cadastrarDindin = new javax.swing.JButton();
+        botao_atualizarDindin = new javax.swing.JButton();
+        botao_removerDindin = new javax.swing.JButton();
+        botao_consultarDindins = new javax.swing.JButton();
         painel_historico = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tabela_historicoVendas = new javax.swing.JTable();
+        painel_botoesHistorico = new javax.swing.JPanel();
+        botao_restaurarVenda = new javax.swing.JButton();
+        botao_indeferirVenda = new javax.swing.JButton();
+        botao_gerarRelatorio = new javax.swing.JButton();
         menuBarra = new javax.swing.JMenuBar();
         menu_telas = new javax.swing.JMenu();
         itemMenu_venda = new javax.swing.JMenuItem();
@@ -48,7 +72,8 @@ public class Tela extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gerenciamento de dindins");
-        getContentPane().setLayout(new java.awt.CardLayout());
+
+        painel_fundo.setLayout(new java.awt.CardLayout());
 
         painel_venda.setBackground(new java.awt.Color(255, 255, 255));
         painel_venda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Venda", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
@@ -57,33 +82,33 @@ public class Tela extends javax.swing.JFrame {
 
         jButton1.setText("Adicionar");
 
-        spiner_quantidadeSabor.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1, 1));
-        spiner_quantidadeSabor.setToolTipText("Quantidade do sabor definido");
+        spinner_quantidadeSabor.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1, 1));
+        spinner_quantidadeSabor.setToolTipText("Quantidade do sabor definido");
 
         combo_saborDindin.setToolTipText("Sabor do dindin");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+        javax.swing.GroupLayout painel_formSaborVendaLayout = new javax.swing.GroupLayout(painel_formSaborVenda);
+        painel_formSaborVenda.setLayout(painel_formSaborVendaLayout);
+        painel_formSaborVendaLayout.setHorizontalGroup(
+            painel_formSaborVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painel_formSaborVendaLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(combo_saborDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(spiner_quantidadeSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addComponent(spinner_quantidadeSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        painel_formSaborVendaLayout.setVerticalGroup(
+            painel_formSaborVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painel_formSaborVendaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(painel_formSaborVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(combo_saborDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spiner_quantidadeSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinner_quantidadeSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -96,10 +121,27 @@ public class Tela extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Sabor", "Quantidade", "Valor Un.", "Valor Tot."
             }
         ));
+        tabela_dindinsSelecionados.setSelectionBackground(new java.awt.Color(102, 153, 255));
+        tabela_dindinsSelecionados.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabela_dindinsSelecionados);
+
+        label_valorTotalVenda.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        label_valorTotalVenda.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        label_valorTotalVenda.setText("Total:");
+
+        botao_executarVenda.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        botao_executarVenda.setText("Executar venda");
+        botao_executarVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botao_executarVendaActionPerformed(evt);
+            }
+        });
+
+        botao_cancelarVenda.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        botao_cancelarVenda.setText("Cancelar venda");
 
         javax.swing.GroupLayout painel_vendaLayout = new javax.swing.GroupLayout(painel_venda);
         painel_venda.setLayout(painel_vendaLayout);
@@ -108,86 +150,246 @@ public class Tela extends javax.swing.JFrame {
             .addGroup(painel_vendaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(painel_vendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                    .addComponent(painel_formSaborVenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addGroup(painel_vendaLayout.createSequentialGroup()
+                        .addComponent(label_valorTotalVenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(22, 22, 22)
+                        .addComponent(botao_cancelarVenda)
+                        .addGap(18, 18, 18)
+                        .addComponent(botao_executarVenda)))
                 .addContainerGap())
         );
         painel_vendaLayout.setVerticalGroup(
             painel_vendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painel_vendaLayout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(painel_formSaborVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(painel_vendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(botao_cancelarVenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botao_executarVenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_valorTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
+
+        painel_fundo.add(painel_venda, "card2");
 
         painel_estoque.setBackground(new java.awt.Color(255, 255, 255));
         painel_estoque.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estoque", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Dindins em estoque"));
+
+        tabela_estoqueDindins.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Sabor", "Custo", "Valor", "Quant. em estoque"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabela_estoqueDindins.setSelectionBackground(new java.awt.Color(102, 153, 255));
+        tabela_estoqueDindins.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tabela_estoqueDindins);
+
+        campo_sabor.setBorder(javax.swing.BorderFactory.createTitledBorder("Sabor"));
+
+        spinner_valor.setModel(new javax.swing.SpinnerNumberModel(1.0d, 0.5d, 99.99d, 0.25d));
+        spinner_valor.setBorder(javax.swing.BorderFactory.createTitledBorder("Valor"));
+
+        spinner_custo.setModel(new javax.swing.SpinnerNumberModel(1.0d, 0.01d, 99.99d, 0.01d));
+        spinner_custo.setBorder(javax.swing.BorderFactory.createTitledBorder("Custo"));
+
+        spinner_quantidade.setModel(new javax.swing.SpinnerNumberModel(1, 0, null, 1));
+        spinner_quantidade.setBorder(javax.swing.BorderFactory.createTitledBorder("Quantidade"));
+
+        botao_limparFormDindin.setText("Limpar campos");
+
+        javax.swing.GroupLayout painel_formDindinLayout = new javax.swing.GroupLayout(painel_formDindin);
+        painel_formDindin.setLayout(painel_formDindinLayout);
+        painel_formDindinLayout.setHorizontalGroup(
+            painel_formDindinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painel_formDindinLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(painel_formDindinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_formDindinLayout.createSequentialGroup()
+                        .addComponent(campo_sabor)
+                        .addGap(18, 18, 18)
+                        .addComponent(spinner_custo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(spinner_valor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(spinner_quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_formDindinLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botao_limparFormDindin)))
+                .addContainerGap())
+        );
+        painel_formDindinLayout.setVerticalGroup(
+            painel_formDindinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painel_formDindinLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(painel_formDindinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campo_sabor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinner_valor)
+                    .addComponent(spinner_custo)
+                    .addComponent(spinner_quantidade))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botao_limparFormDindin)
+                .addContainerGap())
+        );
+
+        botao_cadastrarDindin.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        botao_cadastrarDindin.setText("Cadastrar");
+
+        botao_atualizarDindin.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        botao_atualizarDindin.setText("Atualizar");
+
+        botao_removerDindin.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        botao_removerDindin.setText("Remover");
+
+        javax.swing.GroupLayout painel_botoesDindinLayout = new javax.swing.GroupLayout(painel_botoesDindin);
+        painel_botoesDindin.setLayout(painel_botoesDindinLayout);
+        painel_botoesDindinLayout.setHorizontalGroup(
+            painel_botoesDindinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painel_botoesDindinLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(botao_cadastrarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 39, Short.MAX_VALUE)
+                .addComponent(botao_atualizarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 40, Short.MAX_VALUE)
+                .addComponent(botao_removerDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        painel_botoesDindinLayout.setVerticalGroup(
+            painel_botoesDindinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_botoesDindinLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(painel_botoesDindinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botao_cadastrarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botao_atualizarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botao_removerDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        botao_consultarDindins.setText("recarregar dados");
 
         javax.swing.GroupLayout painel_estoqueLayout = new javax.swing.GroupLayout(painel_estoque);
         painel_estoque.setLayout(painel_estoqueLayout);
         painel_estoqueLayout.setHorizontalGroup(
             painel_estoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 568, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_estoqueLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(painel_estoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(botao_consultarDindins)
+                    .addComponent(painel_formDindin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(painel_botoesDindin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         painel_estoqueLayout.setVerticalGroup(
             painel_estoqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 372, Short.MAX_VALUE)
+            .addGroup(painel_estoqueLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(painel_formDindin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botao_consultarDindins)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(painel_botoesDindin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        painel_fundo.add(painel_estoque, "card3");
 
         painel_historico.setBackground(new java.awt.Color(255, 255, 255));
         painel_historico.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Histórico de vendas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder("Histórico de vendas"));
+
+        tabela_historicoVendas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID ", "Sabores vendidos", "Quantidades", "Valor total", "Data", "Estado"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabela_historicoVendas.setSelectionBackground(new java.awt.Color(102, 153, 255));
+        tabela_historicoVendas.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(tabela_historicoVendas);
+
+        botao_restaurarVenda.setText("Restaurar venda");
+
+        botao_indeferirVenda.setText("Indeferir venda");
+
+        botao_gerarRelatorio.setText("Gerar relatório");
+
+        javax.swing.GroupLayout painel_botoesHistoricoLayout = new javax.swing.GroupLayout(painel_botoesHistorico);
+        painel_botoesHistorico.setLayout(painel_botoesHistoricoLayout);
+        painel_botoesHistoricoLayout.setHorizontalGroup(
+            painel_botoesHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_botoesHistoricoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(botao_gerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(botao_indeferirVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(botao_restaurarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        painel_botoesHistoricoLayout.setVerticalGroup(
+            painel_botoesHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_botoesHistoricoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(painel_botoesHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botao_restaurarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botao_indeferirVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botao_gerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout painel_historicoLayout = new javax.swing.GroupLayout(painel_historico);
         painel_historico.setLayout(painel_historicoLayout);
         painel_historicoLayout.setHorizontalGroup(
             painel_historicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 568, Short.MAX_VALUE)
+            .addGroup(painel_historicoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(painel_historicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+                    .addComponent(painel_botoesHistorico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         painel_historicoLayout.setVerticalGroup(
             painel_historicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 372, Short.MAX_VALUE)
+            .addGroup(painel_historicoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(painel_botoesHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        javax.swing.GroupLayout painel_fundoLayout = new javax.swing.GroupLayout(painel_fundo);
-        painel_fundo.setLayout(painel_fundoLayout);
-        painel_fundoLayout.setHorizontalGroup(
-            painel_fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(painel_fundoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(painel_venda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(painel_fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(painel_fundoLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(painel_estoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(painel_fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_fundoLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(painel_historico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-        );
-        painel_fundoLayout.setVerticalGroup(
-            painel_fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(painel_fundoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(painel_venda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(painel_fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(painel_fundoLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(painel_estoque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(painel_fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(painel_fundoLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(painel_historico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-        );
-
-        getContentPane().add(painel_fundo, "card2");
+        painel_fundo.add(painel_historico, "card4");
 
         menu_telas.setText("Telas");
 
@@ -219,6 +421,17 @@ public class Tela extends javax.swing.JFrame {
 
         setJMenuBar(menuBarra);
 
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(painel_fundo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(painel_fundo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -234,6 +447,10 @@ public class Tela extends javax.swing.JFrame {
     private void itemMenu_historicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenu_historicoActionPerformed
         setPainelVisivel(painel_historico);
     }//GEN-LAST:event_itemMenu_historicoActionPerformed
+
+    private void botao_executarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botao_executarVendaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botao_executarVendaActionPerformed
 
     private void setPainelVisivel(javax.swing.JPanel painel) {
         Component[] content = painel_fundo.getComponents();
@@ -281,21 +498,43 @@ public class Tela extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botao_atualizarDindin;
+    private javax.swing.JButton botao_cadastrarDindin;
+    private javax.swing.JButton botao_cancelarVenda;
+    private javax.swing.JButton botao_consultarDindins;
+    private javax.swing.JButton botao_executarVenda;
+    private javax.swing.JButton botao_gerarRelatorio;
+    private javax.swing.JButton botao_indeferirVenda;
+    private javax.swing.JButton botao_limparFormDindin;
+    private javax.swing.JButton botao_removerDindin;
+    private javax.swing.JButton botao_restaurarVenda;
+    private javax.swing.JTextField campo_sabor;
     private javax.swing.JComboBox<String> combo_saborDindin;
     private javax.swing.JMenuItem itemMenu_estoque;
     private javax.swing.JMenuItem itemMenu_historico;
     private javax.swing.JMenuItem itemMenu_venda;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel label_valorTotalVenda;
     private javax.swing.JMenuBar menuBarra;
     private javax.swing.JMenu menu_telas;
+    private javax.swing.JPanel painel_botoesDindin;
+    private javax.swing.JPanel painel_botoesHistorico;
     private javax.swing.JPanel painel_estoque;
+    private javax.swing.JPanel painel_formDindin;
+    private javax.swing.JPanel painel_formSaborVenda;
     private javax.swing.JPanel painel_fundo;
     private javax.swing.JPanel painel_historico;
     private javax.swing.JPanel painel_venda;
-    private javax.swing.JSpinner spiner_quantidadeSabor;
+    private javax.swing.JSpinner spinner_custo;
+    private javax.swing.JSpinner spinner_quantidade;
+    private javax.swing.JSpinner spinner_quantidadeSabor;
+    private javax.swing.JSpinner spinner_valor;
     private javax.swing.JTable tabela_dindinsSelecionados;
+    private javax.swing.JTable tabela_estoqueDindins;
+    private javax.swing.JTable tabela_historicoVendas;
     // End of variables declaration//GEN-END:variables
 }
