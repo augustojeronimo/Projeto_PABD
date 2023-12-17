@@ -42,13 +42,13 @@ public class AcessoBD {
         }
     }
     
-    public int updateEstadoVenda(Venda venda, String estado) {
+    public int updateEstadoVenda(int idVenda, String estado) {
         estado = estado.toLowerCase();
         
         if (!estado.equals("operante") && !estado.equals("indeferida")) {
             return ERRO_SINTAXE;
         } else {
-            return new ConexaoVenda().updateEstado(venda, estado);
+            return new ConexaoVenda().updateEstado(idVenda, estado);
         }
     }
     
@@ -219,11 +219,11 @@ public class AcessoBD {
     }
     
     
-    /* insert, updateEstado, select */
+    /* insert, updateEstado, selectVenda e selectVendas */
     private class ConexaoVenda extends ConexaoBD {
         
         // atualiza o estado da venda no banco de dados
-        private int updateEstado(Venda v, String estado) {
+        private int updateEstado(int idVenda, String estado) {
             int mensagem = conectar();
             
             if (mensagem < 0) {
@@ -232,9 +232,10 @@ public class AcessoBD {
             }
             
             try {
-                instrucao = con.prepareStatement("update venda set estado = ?");
+                instrucao = con.prepareStatement("update venda set estado = ? where idVenda = ?");
                 
                 instrucao.setString(1, estado);
+                instrucao.setInt(2, idVenda);
                 
                 instrucao.execute();
                 
@@ -503,6 +504,38 @@ public class AcessoBD {
                     
                     String sabor = dv.getDindin().getSabor();
                     int quantidade = (new ConexaoDindin().selectDindin(sabor).getQuantidadeEstoque())-(dv.getQuantidade());
+                    
+                    instrucao.setInt(1, quantidade);
+                    instrucao.setString(2, sabor);
+                    
+                    instrucao.execute();
+                    
+                }
+                
+            } catch (SQLException ex) {
+                mensagem = AcessoBD.ERRO_SINTAXE;
+            }
+            
+            return mensagem;
+        }
+        
+        // atualiza a quantidade de dindins de acordo com a venda cancelada
+        private int executarReposicaoDindins(Venda venda) {
+            int mensagem = conectar();
+            
+            if (mensagem < 0) {
+                fecharConexao();
+                return mensagem;
+            }
+            
+            try {
+                
+                
+                for (DindinVendido dv : venda.getDindinsVendidos()) {
+                    instrucao = con.prepareStatement("update dindin set quantidadeEstoque = ? where sabor = ?");
+                    
+                    String sabor = dv.getDindin().getSabor();
+                    int quantidade = (new ConexaoDindin().selectDindin(sabor).getQuantidadeEstoque())+(dv.getQuantidade());
                     
                     instrucao.setInt(1, quantidade);
                     instrucao.setString(2, sabor);
