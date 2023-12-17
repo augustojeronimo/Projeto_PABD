@@ -480,7 +480,7 @@ public class Tela extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID ", "Sabores vendidos", "Quantidades", "Valor total", "Data", "Estado"
+                "ID ", "Sabores vendidos", "Valor total", "Desconto", "Data", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -847,8 +847,8 @@ public class Tela extends javax.swing.JFrame {
             modelo_historicoVendas.addRow(new Object[]{
                 v.getIdVenda(),
                 v.getSaboresVendidosToString(),
-                v.getQuantidadesVendidasToString(),
                 v.getValorTotal(),
+                v.getDesconto(),
                 v.getDataVenda(),
                 v.getEstado()
             });

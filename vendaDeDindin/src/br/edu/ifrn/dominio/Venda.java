@@ -117,23 +117,10 @@ public class Venda {
         int tam = dindinsVendidos.size();
         
         for (int i = 0; i < tam; i++) {
+            String sabor = dindinsVendidos.get(i).getDindin().getSabor();
+            int quantidade = dindinsVendidos.get(i).getQuantidade();
             
-            str_dindins += dindinsVendidos.get(i).getDindin().getSabor() + (i == tam-1? "":", ");
-            
-        }
-        
-        return str_dindins;
-    }
-    
-    public String getQuantidadesVendidasToString() {
-        String str_dindins = "";
-        
-        int tam = dindinsVendidos.size();
-        
-        for (int i = 0; i < tam; i++) {
-            
-            str_dindins += dindinsVendidos.get(i).getQuantidade() + (i == tam-1? "":", ");
-            
+            str_dindins += (i == 0? "":", ") + sabor + " ["+quantidade+"]";
         }
         
         return str_dindins;
@@ -141,6 +128,7 @@ public class Venda {
     
     public void addDindinVendido(DindinVendido dindinVendido){
         if (dindinsVendidos.add(dindinVendido)) {
+            dindinVendido.setIdVenda(this.idVenda);
             valorTotal += dindinVendido.getQuantidade() * dindinVendido.getDindin().getValor();
         }
     }

@@ -85,7 +85,7 @@ public class ConexaoVenda extends ConexaoBD {
                 instrucao = con.prepareStatement("select max(idVenda) as id from venda limit 1");
                 ResultSet resul = instrucao.executeQuery();
 
-                while (resul.next()) {                
+                while (resul.next()) {
                     id = (1 + resul.getInt("id"));
                 }
 

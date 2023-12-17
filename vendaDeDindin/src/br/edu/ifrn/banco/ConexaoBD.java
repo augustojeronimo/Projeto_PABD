@@ -4,32 +4,39 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 abstract class ConexaoBD {
     
-    Connection con;
-    PreparedStatement instrucao;
+    protected Connection con;
+    protected PreparedStatement instrucao;
 
     
-    protected void conectar() {
+    protected int conectar() {
+        int mensagem = AcessoBD.OPERACAO_CONCLUIDA;
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/vendadindin","root","");
         } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar driver");
+            mensagem = AcessoBD.ERRO_DRIVER;
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao tentar conectar");
+            mensagem = AcessoBD.ERRO_CONECTAR;
         }
+        
+        return mensagem;
     }
     
-    protected void fecharConexao() {
+    protected int fecharConexao() {
+        int mensagem = AcessoBD.OPERACAO_CONCLUIDA;
+        
         try {
             instrucao.close();
             con.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao fechar conexão");
+            mensagem = AcessoBD.ERRO_FECHAR_CONEXAO;
         }
+        
+        return mensagem;
     }
     
 }
