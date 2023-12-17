@@ -77,6 +77,8 @@ public class Venda {
     public void setDindinsVendidos(List<DindinVendido> dindinsVendidos) {
         this.dindinsVendidos = dindinsVendidos;
         
+        this.valorTotal = 0;
+        
         for (DindinVendido dv : dindinsVendidos) {
             this.valorTotal += dv.getQuantidade() * dv.getDindin().getValor();
         }

@@ -398,7 +398,7 @@ public class AcessoBD {
             ArrayList<Integer> lista = new ArrayList<>();
 
             try {
-                instrucao = con.prepareStatement("select idVenda from venda");
+                instrucao = con.prepareStatement("select idVenda from venda order by dataVenda desc, idVenda asc");
                 ResultSet resul = instrucao.executeQuery();
 
                 while (resul.next()) {                
