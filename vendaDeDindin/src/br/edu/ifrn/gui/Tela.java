@@ -6,6 +6,7 @@
 package br.edu.ifrn.gui;
 
 import br.edu.ifrn.banco.ConexaoDindin;
+import br.edu.ifrn.banco.ConexaoVenda;
 import br.edu.ifrn.dominio.Dindin;
 import br.edu.ifrn.dominio.DindinVendido;
 import br.edu.ifrn.dominio.Venda;
@@ -13,6 +14,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.LineBorder;
@@ -129,6 +131,7 @@ public class Tela extends javax.swing.JFrame {
         botaoHistorico_restaurarVenda = new javax.swing.JButton();
         botaoHistorico_indeferirVenda = new javax.swing.JButton();
         botaoHistorico_gerarRelatorio = new javax.swing.JButton();
+        botaoEstoque_consultarDindins2 = new javax.swing.JButton();
         menuBarra = new javax.swing.JMenuBar();
         menu_telas = new javax.swing.JMenu();
         itemMenu_venda = new javax.swing.JMenuItem();
@@ -282,7 +285,7 @@ public class Tela extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(painel_formSaborVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(painel_vendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(botaoVenda_cancelarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -457,7 +460,7 @@ public class Tela extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(painel_formDindin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botaoEstoque_consultarDindins)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -510,7 +513,7 @@ public class Tela extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_botoesHistoricoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(botaoHistorico_gerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
                 .addComponent(botaoHistorico_indeferirVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botaoHistorico_restaurarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -527,6 +530,14 @@ public class Tela extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        botaoEstoque_consultarDindins2.setText("recarregar dados");
+        botaoEstoque_consultarDindins2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoEstoque_consultarDindins2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoEstoque_consultarDindins2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout painel_historicoLayout = new javax.swing.GroupLayout(painel_historico);
         painel_historico.setLayout(painel_historicoLayout);
         painel_historicoLayout.setHorizontalGroup(
@@ -535,15 +546,20 @@ public class Tela extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(painel_historicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
-                    .addComponent(painel_botoesHistorico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(painel_botoesHistorico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_historicoLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botaoEstoque_consultarDindins2)))
                 .addContainerGap())
         );
         painel_historicoLayout.setVerticalGroup(
             painel_historicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painel_historicoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(botaoEstoque_consultarDindins2)
+                .addGap(25, 25, 25)
                 .addComponent(painel_botoesHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -608,10 +624,21 @@ public class Tela extends javax.swing.JFrame {
 
     private void itemMenu_historicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenu_historicoActionPerformed
         setPainelVisivel(painel_fundo, painel_historico);
+        atualizarTabelaHistorico();
     }//GEN-LAST:event_itemMenu_historicoActionPerformed
 
     private void botaoVenda_executarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVenda_executarVendaActionPerformed
-        // TODO add your handling code here:
+        if (venda.getDindinsVendidos().size() > 0) {
+            long data = new java.util.Date().getTime();
+            venda.setDataVenda(new java.sql.Date(data));
+
+            venda.setDesconto((double) spinnerVenda_desconto.getValue());
+            
+            ConexaoVenda cv = new ConexaoVenda();
+            cv.insert(venda);
+        } else {
+            JOptionPane.showMessageDialog(null, "Lista vazia, venda negada!");
+        }
     }//GEN-LAST:event_botaoVenda_executarVendaActionPerformed
 
     private void botaoVenda_adicionarDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVenda_adicionarDindinActionPerformed
@@ -755,6 +782,10 @@ public class Tela extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabelaEstoque_estoqueDindinsMouseClicked
 
+    private void botaoEstoque_consultarDindins2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEstoque_consultarDindins2ActionPerformed
+        atualizarTabelaHistorico();
+    }//GEN-LAST:event_botaoEstoque_consultarDindins2ActionPerformed
+
     /* -/-/-/-/-/-/-/-/-/-/- Métodos relacionados ao banco de dados -/-/-/-/-/-/-/-/-/-/- */
     
     /* -=-=-=-=- Métodos da tela de venda -=-=-=-=- */
@@ -805,7 +836,25 @@ public class Tela extends javax.swing.JFrame {
     
     /* -=-=-=-=- Métodos da tela de histórico -=-=-=-=- */
     
-    
+    private void atualizarTabelaHistorico() {
+        ConexaoVenda cv = new ConexaoVenda();
+        ArrayList<Venda> lista = cv.select();
+
+        modelo_historicoVendas.setNumRows(0);
+        
+        for (Venda v : lista) {
+            
+            modelo_historicoVendas.addRow(new Object[]{
+                v.getIdVenda(),
+                v.getSaboresVendidosToString(),
+                v.getQuantidadesVendidasToString(),
+                v.getValorTotal(),
+                v.getDataVenda(),
+                v.getEstado()
+            });
+            
+        }
+    }
     
     /* -/-/-/-/-/-/- Método principal e declaração dos elementos da interface -/-/-/-/-/-/- */
     
@@ -848,6 +897,7 @@ public class Tela extends javax.swing.JFrame {
     private javax.swing.JButton botaoEstoque_atualizarDindin;
     private javax.swing.JButton botaoEstoque_cadastrarDindin;
     private javax.swing.JButton botaoEstoque_consultarDindins;
+    private javax.swing.JButton botaoEstoque_consultarDindins2;
     private javax.swing.JButton botaoEstoque_limparFormDindin;
     private javax.swing.JButton botaoEstoque_removerDindin;
     private javax.swing.JButton botaoHistorico_gerarRelatorio;

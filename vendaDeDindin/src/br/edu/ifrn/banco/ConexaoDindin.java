@@ -4,8 +4,6 @@ import br.edu.ifrn.dominio.Dindin;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class ConexaoDindin extends ConexaoBD {
@@ -96,7 +94,7 @@ public class ConexaoDindin extends ConexaoBD {
             }
             
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao consultar [unico]");
+            JOptionPane.showMessageDialog(null, "Erro ao consultar");
         } finally {
             fecharConexao();
         }
