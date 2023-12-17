@@ -5,8 +5,7 @@
  */
 package br.edu.ifrn.gui;
 
-import br.edu.ifrn.banco.ConexaoDindin;
-import br.edu.ifrn.banco.ConexaoVenda;
+import br.edu.ifrn.banco.AcessoBD;
 import br.edu.ifrn.dominio.Dindin;
 import br.edu.ifrn.dominio.DindinVendido;
 import br.edu.ifrn.dominio.Venda;
@@ -23,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Tela extends javax.swing.JFrame {
     
+    private AcessoBD acesso;
     private Venda venda;
     
 
@@ -33,6 +33,7 @@ public class Tela extends javax.swing.JFrame {
     
     public Tela() {
         initComponents();
+        acesso = new AcessoBD();
         
         modelo_dindinsSelecionados = (DefaultTableModel) tabelaVenda_dindinsSelecionados.getModel();
         modelo_dindinsEstoque = (DefaultTableModel) tabelaEstoque_estoqueDindins.getModel();
@@ -70,6 +71,26 @@ public class Tela extends javax.swing.JFrame {
         spinnerVenda_desconto.setModel(model);
     }
     
+    private void mensagemVenda(int mensagem) {
+        switch (mensagem) {
+            
+            case AcessoBD.OPERACAO_CONCLUIDA:
+                JOptionPane.showMessageDialog(this, "Venda realizada com sucesso");
+                break;    
+            case AcessoBD.ERRO_DRIVER:
+                JOptionPane.showMessageDialog(this, "Houve um erro no driver\nnão foi possível realizar a venda");
+                break;    
+            case AcessoBD.ERRO_CONECTAR:
+                JOptionPane.showMessageDialog(this, "Houve um erro na conexão\nnão foi possível realizar a venda");
+                break;
+            case AcessoBD.ERRO_SINTAXE:
+                JOptionPane.showMessageDialog(this, "Houve um erro de sintaxe\nverifique os dados e tente novamente");
+                break;
+            default:
+                break;
+        }
+    }
+    
     /* -=-=-=-=- Métodos da tela de estoque -=-=-=-=- */
     
     private void limparFormEstoque() {
@@ -103,7 +124,7 @@ public class Tela extends javax.swing.JFrame {
         botaoVenda_removerDindin = new javax.swing.JButton();
         botaoVenda_adicionarDindin = new javax.swing.JButton();
         spinnerVenda_quantidadeSabor = new javax.swing.JSpinner();
-        spinnerVenda_saborDindin = new javax.swing.JComboBox<>();
+        comboVenda_saborDindin = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaVenda_dindinsSelecionados = new javax.swing.JTable();
         labelVenda_valorTotal = new javax.swing.JLabel();
@@ -168,11 +189,11 @@ public class Tela extends javax.swing.JFrame {
         spinnerVenda_quantidadeSabor.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1, 1));
         spinnerVenda_quantidadeSabor.setToolTipText("Quantidade do sabor definido");
 
-        spinnerVenda_saborDindin.setToolTipText("Sabor do dindin");
-        spinnerVenda_saborDindin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        spinnerVenda_saborDindin.addActionListener(new java.awt.event.ActionListener() {
+        comboVenda_saborDindin.setToolTipText("Sabor do dindin");
+        comboVenda_saborDindin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        comboVenda_saborDindin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                spinnerVenda_saborDindinActionPerformed(evt);
+                comboVenda_saborDindinActionPerformed(evt);
             }
         });
 
@@ -182,7 +203,7 @@ public class Tela extends javax.swing.JFrame {
             painel_formSaborVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painel_formSaborVendaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(spinnerVenda_saborDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboVenda_saborDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(spinnerVenda_quantidadeSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
@@ -196,7 +217,7 @@ public class Tela extends javax.swing.JFrame {
             .addGroup(painel_formSaborVendaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(painel_formSaborVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(spinnerVenda_saborDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboVenda_saborDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(spinnerVenda_quantidadeSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botaoVenda_adicionarDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botaoVenda_removerDindin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -499,6 +520,11 @@ public class Tela extends javax.swing.JFrame {
 
         botaoHistorico_restaurarVenda.setText("Restaurar venda");
         botaoHistorico_restaurarVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoHistorico_restaurarVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoHistorico_restaurarVendaActionPerformed(evt);
+            }
+        });
 
         botaoHistorico_indeferirVenda.setText("Indeferir venda");
         botaoHistorico_indeferirVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -614,6 +640,7 @@ public class Tela extends javax.swing.JFrame {
     /* -/-/-/-/-/-/-/-/-/-/- Métodos de ação dos elementos -/-/-/-/-/-/-/-/-/-/- */
     
     private void itemMenu_vendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenu_vendaActionPerformed
+        resetVenda();
         setPainelVisivel(painel_fundo, painel_venda);
     }//GEN-LAST:event_itemMenu_vendaActionPerformed
 
@@ -634,20 +661,24 @@ public class Tela extends javax.swing.JFrame {
 
             venda.setDesconto((double) spinnerVenda_desconto.getValue());
             
-            ConexaoVenda cv = new ConexaoVenda();
-            cv.insert(venda);
+            mensagemVenda(acesso.insertVenda(venda));
+            
+            resetVenda();
         } else {
             JOptionPane.showMessageDialog(null, "Lista vazia, venda negada!");
         }
     }//GEN-LAST:event_botaoVenda_executarVendaActionPerformed
 
     private void botaoVenda_adicionarDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVenda_adicionarDindinActionPerformed
-        ConexaoDindin cd = new ConexaoDindin();
-        
-        String sabor = (String) spinnerVenda_saborDindin.getSelectedItem();
-        
+        String sabor = (String) comboVenda_saborDindin.getSelectedItem();
         int quantidade = (int) spinnerVenda_quantidadeSabor.getValue();
-        Dindin d = cd.selectDindin(sabor);
+
+        if (sabor == null) {
+            JOptionPane.showMessageDialog(this, "Lista de sabores vazia!");
+            return;
+        }
+        
+        Dindin d = acesso.selectDindin(sabor);
         
         DindinVendido dv = new DindinVendido(d, quantidade);
         
@@ -660,27 +691,27 @@ public class Tela extends javax.swing.JFrame {
             d.getValor()*quantidade
         });
         
-        spinnerVenda_saborDindin.removeItem(sabor);
+        comboVenda_saborDindin.removeItem(sabor);
         
         atualizarTotalVenda();
     }//GEN-LAST:event_botaoVenda_adicionarDindinActionPerformed
 
-    private void spinnerVenda_saborDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spinnerVenda_saborDindinActionPerformed
-        String sabor = String.valueOf(spinnerVenda_saborDindin.getSelectedItem());
+    private void comboVenda_saborDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboVenda_saborDindinActionPerformed
+        String sabor = String.valueOf(comboVenda_saborDindin.getSelectedItem());
         
-        if (spinnerVenda_saborDindin.getSelectedItem() == null) {
+        if (comboVenda_saborDindin.getSelectedItem() == null) {
             
             botaoVenda_adicionarDindin.setEnabled(false);
             spinnerVenda_quantidadeSabor.setValue(0);
             
         } else {
-            Dindin d = new ConexaoDindin().selectDindin(sabor);
+            Dindin d = acesso.selectDindin(sabor);
         
             SpinnerModel model = new SpinnerNumberModel(1, 1, d.getQuantidadeEstoque(), 1);
 
             spinnerVenda_quantidadeSabor.setModel(model);
         }
-    }//GEN-LAST:event_spinnerVenda_saborDindinActionPerformed
+    }//GEN-LAST:event_comboVenda_saborDindinActionPerformed
 
     private void botaoVenda_removerDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVenda_removerDindinActionPerformed
         // captura a linha selecionada na tabela
@@ -691,11 +722,9 @@ public class Tela extends javax.swing.JFrame {
             // captura o sabor referenciado na linha
             String sabor =(String) tabelaVenda_dindinsSelecionados.getValueAt(linha, 0);
             //adiciona esse sabor de volta como escolha
-            spinnerVenda_saborDindin.addItem(sabor);
+            comboVenda_saborDindin.addItem(sabor);
             
-            ConexaoDindin cd = new ConexaoDindin();
-            
-            Dindin d = cd.selectDindin(sabor);
+            Dindin d = acesso.selectDindin(sabor);
             int quantidade = (int) modelo_dindinsSelecionados.getValueAt(linha, 1);
             
             DindinVendido dv = new DindinVendido(d, quantidade);
@@ -727,8 +756,7 @@ public class Tela extends javax.swing.JFrame {
         
         Dindin d = new Dindin(sabor, custo, valor, quantidadeEstoque);
         
-        ConexaoDindin cd = new ConexaoDindin();
-        cd.insert(d);
+        acesso.InsertDindin(d);
         
         atualizarTabelaEstoque();
     }//GEN-LAST:event_botaoEstoque_cadastrarDindinActionPerformed
@@ -741,8 +769,7 @@ public class Tela extends javax.swing.JFrame {
         
         Dindin d = new Dindin(sabor, custo, valor, quantidadeEstoque);
         
-        ConexaoDindin cd = new ConexaoDindin();
-        cd.update(d);
+        acesso.updateDindin(d);
         
         atualizarTabelaEstoque();
     }//GEN-LAST:event_botaoEstoque_atualizarDindinActionPerformed
@@ -752,8 +779,7 @@ public class Tela extends javax.swing.JFrame {
         
         Dindin d = new Dindin(sabor);
         
-        ConexaoDindin cd = new ConexaoDindin();
-        cd.delete(d);
+        acesso.deleteDindin(d);
         
         atualizarTabelaEstoque();
     }//GEN-LAST:event_botaoEstoque_removerDindinActionPerformed
@@ -786,17 +812,21 @@ public class Tela extends javax.swing.JFrame {
         atualizarTabelaHistorico();
     }//GEN-LAST:event_botaoEstoque_consultarDindins2ActionPerformed
 
+    private void botaoHistorico_restaurarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoHistorico_restaurarVendaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botaoHistorico_restaurarVendaActionPerformed
+
     /* -/-/-/-/-/-/-/-/-/-/- Métodos relacionados ao banco de dados -/-/-/-/-/-/-/-/-/-/- */
     
     /* -=-=-=-=- Métodos da tela de venda -=-=-=-=- */
     private void preencherComboVenda() {
-        ArrayList<Dindin> lista = new ConexaoDindin().selectDindins();
+        ArrayList<Dindin> lista = acesso.selectDindins();
         
-        spinnerVenda_saborDindin.removeAllItems();
+        comboVenda_saborDindin.removeAllItems();
         
         for (Dindin d : lista) {
             if (d.getQuantidadeEstoque() > 0) {
-                spinnerVenda_saborDindin.addItem(d.getSabor());
+                comboVenda_saborDindin.addItem(d.getSabor());
             }
         }
     }
@@ -818,11 +848,9 @@ public class Tela extends javax.swing.JFrame {
     /* -=-=-=-=- Métodos da tela de estoque -=-=-=-=- */
     
     private void atualizarTabelaEstoque() {
-        ConexaoDindin cd = new ConexaoDindin();
-        
         modelo_dindinsEstoque.setNumRows(0);
         
-        ArrayList<Dindin> lista = cd.selectDindins();
+        ArrayList<Dindin> lista = acesso.selectDindins();
         
         lista.forEach((d) -> {
             modelo_dindinsEstoque.addRow(new Object[]{
@@ -837,8 +865,7 @@ public class Tela extends javax.swing.JFrame {
     /* -=-=-=-=- Métodos da tela de histórico -=-=-=-=- */
     
     private void atualizarTabelaHistorico() {
-        ConexaoVenda cv = new ConexaoVenda();
-        ArrayList<Venda> lista = cv.select();
+        ArrayList<Venda> lista = acesso.selectVendas();
 
         modelo_historicoVendas.setNumRows(0);
         
@@ -908,6 +935,7 @@ public class Tela extends javax.swing.JFrame {
     private javax.swing.JButton botaoVenda_executarVenda;
     private javax.swing.JButton botaoVenda_removerDindin;
     private javax.swing.JTextField campoEstoque_sabor;
+    private javax.swing.JComboBox<String> comboVenda_saborDindin;
     private javax.swing.JMenuItem itemMenu_estoque;
     private javax.swing.JMenuItem itemMenu_historico;
     private javax.swing.JMenuItem itemMenu_venda;
@@ -930,7 +958,6 @@ public class Tela extends javax.swing.JFrame {
     private javax.swing.JSpinner spinnerEstoque_valor;
     private javax.swing.JSpinner spinnerVenda_desconto;
     private javax.swing.JSpinner spinnerVenda_quantidadeSabor;
-    private javax.swing.JComboBox<String> spinnerVenda_saborDindin;
     private javax.swing.JTable tabelaEstoque_estoqueDindins;
     private javax.swing.JTable tabelaHistorico_historicoVendas;
     private javax.swing.JTable tabelaVenda_dindinsSelecionados;

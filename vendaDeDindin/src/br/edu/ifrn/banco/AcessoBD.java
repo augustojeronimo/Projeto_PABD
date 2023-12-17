@@ -23,11 +23,11 @@ public class AcessoBD {
         return new ConexaoDindin().delete(d);
     }
 
-    public Dindin InsertDindin(String sabor) {
+    public Dindin selectDindin(String sabor) {
         return new ConexaoDindin().selectDindin(sabor);
     }
 
-    public ArrayList<Dindin> InsertDindin() {
+    public ArrayList<Dindin> selectDindins() {
         return new ConexaoDindin().selectDindins();
     }
     
@@ -35,7 +35,11 @@ public class AcessoBD {
     /* --- VENDA --- */
 
     public int insertVenda(Venda venda) {
-        return new ConexaoVenda().insert(venda);
+        if (venda.getDindinsVendidos().isEmpty()) {
+            return ERRO_SINTAXE;
+        } else {
+            return new ConexaoVenda().insert(venda);
+        }
     }
     
     public int updateEstadoVenda(Venda venda, String estado) {
@@ -58,7 +62,7 @@ public class AcessoBD {
     /* insert, update, delete e select's (individual e lista) */
     private class ConexaoDindin extends ConexaoBD {
         
-        public int insert(Dindin d){
+        private int insert(Dindin d){
             int mensagem = conectar();
             
             if (mensagem < 0) {
@@ -85,7 +89,7 @@ public class AcessoBD {
             return mensagem;
         }
 
-        public int update(Dindin d){
+        private int update(Dindin d){
             int mensagem = conectar();
             
             if (mensagem < 0) {
@@ -112,7 +116,7 @@ public class AcessoBD {
             return mensagem;
         }
 
-        public int delete(Dindin d){
+        private int delete(Dindin d){
             int mensagem = conectar();
             
             if (mensagem < 0) {
@@ -144,7 +148,7 @@ public class AcessoBD {
         }
 
         // Retorna um objeto de Dindin
-        public Dindin selectDindin(String sabor) {
+        private Dindin selectDindin(String sabor) {
             int mensagem = conectar();
             
             if (mensagem < 0) {
@@ -177,7 +181,7 @@ public class AcessoBD {
         }
 
         // Retorna um ArrayList de objetos de Dindin
-        public ArrayList<Dindin> selectDindins() {
+        private ArrayList<Dindin> selectDindins() {
             int mensagem = conectar();
             
             if (mensagem < 0) {
@@ -219,7 +223,7 @@ public class AcessoBD {
     private class ConexaoVenda extends ConexaoBD {
         
         // atualiza o estado da venda no banco de dados
-        public int updateEstado(Venda v, String estado) {
+        private int updateEstado(Venda v, String estado) {
             int mensagem = conectar();
             
             if (mensagem < 0) {
@@ -242,7 +246,7 @@ public class AcessoBD {
         }
         
         // insere um objeto Venda no banco de dados
-        public int insert(Venda v){
+        private int insert(Venda v){
             int mensagem = conectar();
             
             if (mensagem < 0) {
@@ -267,12 +271,6 @@ public class AcessoBD {
                 instrucao.setString(5, v.getEstado());
 
                 instrucao.execute();
-
-                v.getDindinsVendidos().forEach((dv) -> {
-                    if (new subConexaoVenda().insertDindinVendido(dv) < 0) {
-                        
-                    }
-                });
                 
                 for (DindinVendido dv : v.getDindinsVendidos()) {
                     mensagem = new subConexaoVenda().insertDindinVendido(dv);
@@ -289,11 +287,13 @@ public class AcessoBD {
                 fecharConexao();
             }
             
+            new subConexaoVenda().executarBaixaDindins(v);
+            
             return mensagem;
         }
         
         // retorna um ArrayList de objetos Venda
-        public ArrayList<Venda> selectVendas() {
+        private ArrayList<Venda> selectVendas() {
             int mensagem = conectar();
             
             if (mensagem < 0) {
@@ -386,7 +386,7 @@ public class AcessoBD {
         }
         
         // retorna um objeto de Dindin
-        public ArrayList<Integer> selectDistinctIdVenda() {
+        private ArrayList<Integer> selectDistinctIdVenda() {
             int mensagem = conectar();
             
             if (mensagem < 0) {
@@ -441,7 +441,7 @@ public class AcessoBD {
         }
         
         // retorna uma ArrayList com os objetos DindinVendido como idVenda informado
-        public ArrayList<DindinVendido> selectDindinsVendidos(int idVenda) {
+        private ArrayList<DindinVendido> selectDindinsVendidos(int idVenda) {
             int mensagem = conectar();
             
             if (mensagem < 0) {
@@ -484,6 +484,38 @@ public class AcessoBD {
             }
 
             return lista;
+        }
+        
+        // atualiza a quantidade de dindins de acordo com a venda
+        private int executarBaixaDindins(Venda venda) {
+            int mensagem = conectar();
+            
+            if (mensagem < 0) {
+                fecharConexao();
+                return mensagem;
+            }
+            
+            try {
+                
+                
+                for (DindinVendido dv : venda.getDindinsVendidos()) {
+                    instrucao = con.prepareStatement("update dindin set quantidadeEstoque = ? where sabor = ?");
+                    
+                    String sabor = dv.getDindin().getSabor();
+                    int quantidade = (new ConexaoDindin().selectDindin(sabor).getQuantidadeEstoque())-(dv.getQuantidade());
+                    
+                    instrucao.setInt(1, quantidade);
+                    instrucao.setString(2, sabor);
+                    
+                    instrucao.execute();
+                    
+                }
+                
+            } catch (SQLException ex) {
+                mensagem = AcessoBD.ERRO_SINTAXE;
+            }
+            
+            return mensagem;
         }
     }
     

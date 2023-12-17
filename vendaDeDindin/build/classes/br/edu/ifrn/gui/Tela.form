@@ -145,7 +145,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="spinnerVenda_saborDindin" min="-2" pref="180" max="-2" attributes="0"/>
+                          <Component id="comboVenda_saborDindin" min="-2" pref="180" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="spinnerVenda_quantidadeSabor" min="-2" pref="76" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="32767" attributes="0"/>
@@ -161,7 +161,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="spinnerVenda_saborDindin" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="comboVenda_saborDindin" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="spinnerVenda_quantidadeSabor" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="botaoVenda_adicionarDindin" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="botaoVenda_removerDindin" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -206,7 +206,7 @@
                     <Property name="toolTipText" type="java.lang.String" value="Quantidade do sabor definido"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="spinnerVenda_saborDindin">
+                <Component class="javax.swing.JComboBox" name="comboVenda_saborDindin">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="0"/>
@@ -217,7 +217,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="spinnerVenda_saborDindinActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboVenda_saborDindinActionPerformed"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -733,6 +733,9 @@
                       <Color id="Cursor em Forma de M&#xe3;o"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoHistorico_restaurarVendaActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="botaoHistorico_indeferirVenda">
                   <Properties>
