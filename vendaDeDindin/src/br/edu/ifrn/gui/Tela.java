@@ -61,21 +61,12 @@ public class Tela extends javax.swing.JFrame {
         }
     }
     
-    /* -=-=-=-=- Métodos da tela de venda -=-=-=-=- */
     
-    private void atualizarTotalVenda() {
-        String total = String.format("Total: %.02f", venda.getValorTotal());
-        labelVenda_valorTotal.setText(total);
-        
-        SpinnerModel model = new SpinnerNumberModel(0, 0, venda.getValorTotal(), 0.05);
-        spinnerVenda_desconto.setModel(model);
-    }
-    
-    private void mensagemVenda(int mensagem) {
+    private void mensagem(int mensagem) {
         switch (mensagem) {
             
             case AcessoBD.OPERACAO_CONCLUIDA:
-                JOptionPane.showMessageDialog(this, "Venda realizada com sucesso");
+                JOptionPane.showMessageDialog(this, "Operação realizada com sucesso");
                 break;    
             case AcessoBD.ERRO_DRIVER:
                 JOptionPane.showMessageDialog(this, "Houve um erro no driver\nnão foi possível realizar a venda");
@@ -90,6 +81,17 @@ public class Tela extends javax.swing.JFrame {
                 break;
         }
     }
+    
+    /* -=-=-=-=- Métodos da tela de venda -=-=-=-=- */
+    
+    private void atualizarTotalVenda() {
+        String total = String.format("Total: %.02f", venda.getValorTotal());
+        labelVenda_valorTotal.setText(total);
+        
+        SpinnerModel model = new SpinnerNumberModel(0, 0, venda.getValorTotal(), 0.05);
+        spinnerVenda_desconto.setModel(model);
+    }
+    
     
     /* -=-=-=-=- Métodos da tela de estoque -=-=-=-=- */
     
@@ -512,14 +514,19 @@ public class Tela extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tabelaHistorico_historicoVendas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tabelaHistorico_historicoVendas.setSelectionBackground(new java.awt.Color(102, 153, 255));
         tabelaHistorico_historicoVendas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tabelaHistorico_historicoVendas.getTableHeader().setReorderingAllowed(false);
+        tabelaHistorico_historicoVendas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaHistorico_historicoVendasMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tabelaHistorico_historicoVendas);
 
         botaoHistorico_restaurarVenda.setText("Restaurar venda");
         botaoHistorico_restaurarVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoHistorico_restaurarVenda.setEnabled(false);
         botaoHistorico_restaurarVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoHistorico_restaurarVendaActionPerformed(evt);
@@ -528,6 +535,7 @@ public class Tela extends javax.swing.JFrame {
 
         botaoHistorico_indeferirVenda.setText("Indeferir venda");
         botaoHistorico_indeferirVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoHistorico_indeferirVenda.setEnabled(false);
 
         botaoHistorico_gerarRelatorio.setText("Gerar relatório");
         botaoHistorico_gerarRelatorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -661,7 +669,7 @@ public class Tela extends javax.swing.JFrame {
 
             venda.setDesconto((double) spinnerVenda_desconto.getValue());
             
-            mensagemVenda(acesso.insertVenda(venda));
+            mensagem(acesso.insertVenda(venda));
             
             resetVenda();
         } else {
@@ -756,30 +764,31 @@ public class Tela extends javax.swing.JFrame {
         
         Dindin d = new Dindin(sabor, custo, valor, quantidadeEstoque);
         
-        acesso.InsertDindin(d);
+        mensagem(acesso.InsertDindin(d));
         
         atualizarTabelaEstoque();
+        limparFormEstoque();
     }//GEN-LAST:event_botaoEstoque_cadastrarDindinActionPerformed
 
     private void botaoEstoque_atualizarDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEstoque_atualizarDindinActionPerformed
-        String sabor = campoEstoque_sabor.getText().toLowerCase();
+        String sabor = campoEstoque_sabor.getText();
         double custo = (double) spinnerEstoque_custo.getValue();
         double valor = (double) spinnerEstoque_valor.getValue();
         int quantidadeEstoque = (int) spinnerEstoque_quantidade.getValue();
         
         Dindin d = new Dindin(sabor, custo, valor, quantidadeEstoque);
         
-        acesso.updateDindin(d);
+        mensagem(acesso.updateDindin(d));
         
         atualizarTabelaEstoque();
     }//GEN-LAST:event_botaoEstoque_atualizarDindinActionPerformed
 
     private void botaoEstoque_removerDindinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEstoque_removerDindinActionPerformed
-        String sabor = campoEstoque_sabor.getText().toLowerCase();
+        String sabor = campoEstoque_sabor.getText();
         
         Dindin d = new Dindin(sabor);
         
-        acesso.deleteDindin(d);
+        mensagem(acesso.deleteDindin(d));
         
         atualizarTabelaEstoque();
     }//GEN-LAST:event_botaoEstoque_removerDindinActionPerformed
@@ -795,7 +804,7 @@ public class Tela extends javax.swing.JFrame {
     private void tabelaEstoque_estoqueDindinsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaEstoque_estoqueDindinsMouseClicked
         int linha = tabelaEstoque_estoqueDindins.getSelectedRow();
         
-        if (linha > 0 && evt.getButton() == MouseEvent.BUTTON1) {
+        if (linha >= 0 && evt.getButton() == MouseEvent.BUTTON1) {
             String sabor = (String) tabelaEstoque_estoqueDindins.getValueAt(linha, 0);
             double custo = (double) tabelaEstoque_estoqueDindins.getValueAt(linha, 1);
             double valor = (double) tabelaEstoque_estoqueDindins.getValueAt(linha, 2);
@@ -815,6 +824,27 @@ public class Tela extends javax.swing.JFrame {
     private void botaoHistorico_restaurarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoHistorico_restaurarVendaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_botaoHistorico_restaurarVendaActionPerformed
+
+    private void tabelaHistorico_historicoVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaHistorico_historicoVendasMouseClicked
+        int linha = tabelaHistorico_historicoVendas.getSelectedRow();
+        
+        if (evt.getButton() == MouseEvent.BUTTON1 && linha >= 0) {
+            
+            String estado = (String) modelo_historicoVendas.getValueAt(linha, 5);
+            
+            switch(estado) {
+                case "operante":
+                    botaoHistorico_indeferirVenda.setEnabled(true);
+                    botaoHistorico_restaurarVenda.setEnabled(false);
+                    break;
+                case "indeferida":
+                    botaoHistorico_indeferirVenda.setEnabled(false);
+                    botaoHistorico_restaurarVenda.setEnabled(true);
+                    break;
+            }
+            
+        }
+    }//GEN-LAST:event_tabelaHistorico_historicoVendasMouseClicked
 
     /* -/-/-/-/-/-/-/-/-/-/- Métodos relacionados ao banco de dados -/-/-/-/-/-/-/-/-/-/- */
     
@@ -852,14 +882,18 @@ public class Tela extends javax.swing.JFrame {
         
         ArrayList<Dindin> lista = acesso.selectDindins();
         
-        lista.forEach((d) -> {
-            modelo_dindinsEstoque.addRow(new Object[]{
-                d.getSabor(),
-                d.getCusto(),
-                d.getValor(),
-                d.getQuantidadeEstoque()
+        if (lista == null) {
+            JOptionPane.showMessageDialog(this, "Houve um erro ao consultar o estoque");
+        } else {
+            lista.forEach((d) -> {
+                modelo_dindinsEstoque.addRow(new Object[]{
+                    d.getSabor(),
+                    d.getCusto(),
+                    d.getValor(),
+                    d.getQuantidadeEstoque()
+                });
             });
-        });
+        }
     }
     
     /* -=-=-=-=- Métodos da tela de histórico -=-=-=-=- */
@@ -868,18 +902,23 @@ public class Tela extends javax.swing.JFrame {
         ArrayList<Venda> lista = acesso.selectVendas();
 
         modelo_historicoVendas.setNumRows(0);
+        botaoHistorico_indeferirVenda.setEnabled(false);
+        botaoHistorico_restaurarVenda.setEnabled(false);
         
-        for (Venda v : lista) {
-            
-            modelo_historicoVendas.addRow(new Object[]{
-                v.getIdVenda(),
-                v.getSaboresVendidosToString(),
-                v.getValorTotal(),
-                v.getDesconto(),
-                v.getDataVenda(),
-                v.getEstado()
-            });
-            
+        if (lista == null) {
+            JOptionPane.showMessageDialog(this, "Houve um erro ao consultar o histórico");
+        } else {
+            for (Venda v : lista) {
+
+                modelo_historicoVendas.addRow(new Object[]{
+                    v.getIdVenda(),
+                    v.getSaboresVendidosToString(),
+                    v.getValorTotal(),
+                    v.getDesconto(),
+                    v.getDataVenda(),
+                    v.getEstado()
+                });
+            }
         }
     }
     
