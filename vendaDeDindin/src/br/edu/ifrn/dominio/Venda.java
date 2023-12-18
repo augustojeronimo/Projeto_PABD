@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class Venda {
+    
+    /* Constantes */
+    public static final String VENDA_OPERANTE = "operante";
+    public static final String VENDA_INDEFERIDA = "indeferida";
+    
+    /* Atributos */
     private int idVenda;
     private double valorTotal;
     private double desconto;
@@ -26,6 +32,13 @@ public class Venda {
         this.estado = "operante";
     }
     
+    public Venda(int idVenda, String estado) {
+        this.idVenda = idVenda;
+        this.estado = estado;
+        dindinsVendidos = new ArrayList<>();
+        this.valorTotal = 0;
+        this.estado = "operante";
+    }
     
     public int getIdVenda() {
         return idVenda;
@@ -80,6 +93,7 @@ public class Venda {
         this.valorTotal = 0;
         
         for (DindinVendido dv : dindinsVendidos) {
+            dv.setIdVenda(this.idVenda);
             this.valorTotal += dv.getQuantidade() * dv.getDindin().getValor();
         }
     }
