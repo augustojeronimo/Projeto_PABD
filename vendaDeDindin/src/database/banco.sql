@@ -1,3 +1,5 @@
+drop database vendadindin if exists;
+
 create database vendadindin;
 use vendadindin;
 
@@ -25,19 +27,18 @@ create table dindinsVendidos(
     foreign key (saborDindin) references dindin(sabor),
     primary key(idVenda, saborDindin)
 );
-
+/*
 select * from dindin;
 
 select v.idVenda, v.valorTotal, sum(dv.quantidade) from venda as v,dindinsVendidos as dv
 where v.idVenda = dv.idVenda and v.valida = 1 group by v.idVenda;
+*/
 
+/*
 drop table dindinsVendidos;
 drop table venda;
 drop table dindin;
-
-truncate table dindin;
-truncate table venda;
-truncate table dindinsVendidos;
+*/
 
 insert into dindin values ('uva', 2, 12);
 insert into dindin values ('morango', 3, 19);
