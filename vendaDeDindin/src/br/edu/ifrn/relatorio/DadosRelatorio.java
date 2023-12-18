@@ -6,6 +6,7 @@
 package br.edu.ifrn.relatorio;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -14,7 +15,7 @@ import java.util.Date;
 public class DadosRelatorio {
     
     private int idVenda;
-    private String saboresVendidos;
+    private List<String> saboresVendidos;
     private double valorTotal;
     private double desconto;
     private Date data;
@@ -28,13 +29,15 @@ public class DadosRelatorio {
         this.idVenda = idVenda;
     }
 
-    public String getSaboresVendidos() {
+    public List<String> getSaboresVendidos() {
         return saboresVendidos;
     }
 
-    public void setSaboresVendidos(String saboresVendidos) {
+    public void setSaboresVendidos(List<String> saboresVendidos) {
         this.saboresVendidos = saboresVendidos;
     }
+
+    
 
     public double getValorTotal() {
         return valorTotal;

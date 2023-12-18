@@ -146,14 +146,16 @@ public class Venda {
         return str_dindins;
     }
     
-    public String getSaboresVendidosRelatorio(){
+    public List<String> getSaboresVendidosRelatorio(){
+        List<String> saboresVend = new ArrayList<>();
         String str_dindins = "";
         
         for (DindinVendido dv : dindinsVendidos) {
-            str_dindins += String.format("%-40s [%03d]%n", dv.getDindin().getSabor(), dv.getQuantidade());
+            str_dindins = String.format("%s [%03d]", dv.getDindin().getSabor(), dv.getQuantidade());
+            saboresVend.add(str_dindins);
         }
         
-        return str_dindins;
+        return saboresVend;
     }
     
     public void addDindinVendido(DindinVendido dindinVendido){
