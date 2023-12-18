@@ -83,7 +83,7 @@ public class AcessoBD {
     }
     
     public int alternarEstadoVenda(Venda venda) {
-        if (!venda.getEstado().equals(Venda.VENDA_INDEFERIDA) && !venda.getEstado().equals(Venda.VENDA_INDEFERIDA)) {
+        if (!venda.getEstado().equals(Venda.VENDA_INDEFERIDA) && !venda.getEstado().equals(Venda.VENDA_OPERANTE)) {
             return AcessoBD.ERRO_SINTAXE;
         } else {
             return new ConexaoVenda().alternarEstado(venda);
@@ -292,12 +292,8 @@ public class AcessoBD {
                 fecharConexao();
                 return mensagem;
             }
-            
-            if (v.getEstado().equals(Venda.VENDA_INDEFERIDA)) {
-                v.setEstado(Venda.VENDA_OPERANTE);
-            } else {
-                v.setEstado(Venda.VENDA_INDEFERIDA);
-            }
+
+            v.AlterarEstado();
             
             try {
                 instrucao = con.prepareStatement("update venda set estado = ? where idVenda = ? limit 1");

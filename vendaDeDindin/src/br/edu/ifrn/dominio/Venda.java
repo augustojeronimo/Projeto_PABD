@@ -22,22 +22,21 @@ public class Venda {
     public Venda() {
         dindinsVendidos = new ArrayList<>();
         this.valorTotal = 0;
-        this.estado = "operante";
+        this.estado = VENDA_OPERANTE;
     }
 
     public Venda(int idVenda) {
         this.idVenda = idVenda;
         dindinsVendidos = new ArrayList<>();
         this.valorTotal = 0;
-        this.estado = "operante";
+        this.estado = VENDA_OPERANTE;
     }
     
     public Venda(int idVenda, String estado) {
         this.idVenda = idVenda;
-        this.estado = estado;
         dindinsVendidos = new ArrayList<>();
         this.valorTotal = 0;
-        this.estado = "operante";
+        this.estado = estado;
     }
     
     public int getIdVenda() {
@@ -129,6 +128,14 @@ public class Venda {
             return false;
         }
         return true;
+    }
+    
+    public void AlterarEstado() {
+        if (this.estado.equals(VENDA_INDEFERIDA)) {
+            this.estado = VENDA_OPERANTE;
+        } else if (this.estado.equals(VENDA_OPERANTE)) {
+            this.estado = VENDA_INDEFERIDA;
+        }
     }
     
     public String getSaboresVendidosToString() {

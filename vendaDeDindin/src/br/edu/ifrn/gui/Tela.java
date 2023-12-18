@@ -155,8 +155,7 @@ public class Tela extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tabelaHistorico_historicoVendas = new javax.swing.JTable();
         painel_botoesHistorico = new javax.swing.JPanel();
-        botaoHistorico_restaurarVenda = new javax.swing.JButton();
-        botaoHistorico_indeferirVenda = new javax.swing.JButton();
+        botaoHistorico_MudarEstadoVenda = new javax.swing.JButton();
         botaoHistorico_gerarRelatorio = new javax.swing.JButton();
         botaoEstoque_consultarDindins2 = new javax.swing.JButton();
         menuBarra = new javax.swing.JMenuBar();
@@ -528,21 +527,12 @@ public class Tela extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tabelaHistorico_historicoVendas);
 
-        botaoHistorico_restaurarVenda.setText("Restaurar venda");
-        botaoHistorico_restaurarVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botaoHistorico_restaurarVenda.setEnabled(false);
-        botaoHistorico_restaurarVenda.addActionListener(new java.awt.event.ActionListener() {
+        botaoHistorico_MudarEstadoVenda.setText("Restaurar/Indeferir venda");
+        botaoHistorico_MudarEstadoVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoHistorico_MudarEstadoVenda.setEnabled(false);
+        botaoHistorico_MudarEstadoVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botaoHistorico_restaurarVendaActionPerformed(evt);
-            }
-        });
-
-        botaoHistorico_indeferirVenda.setText("Indeferir venda");
-        botaoHistorico_indeferirVenda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botaoHistorico_indeferirVenda.setEnabled(false);
-        botaoHistorico_indeferirVenda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botaoHistorico_indeferirVendaActionPerformed(evt);
+                botaoHistorico_MudarEstadoVendaActionPerformed(evt);
             }
         });
 
@@ -561,10 +551,8 @@ public class Tela extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_botoesHistoricoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(botaoHistorico_gerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
-                .addComponent(botaoHistorico_indeferirVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botaoHistorico_restaurarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(botaoHistorico_MudarEstadoVenda)
                 .addContainerGap())
         );
         painel_botoesHistoricoLayout.setVerticalGroup(
@@ -572,8 +560,7 @@ public class Tela extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_botoesHistoricoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(painel_botoesHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botaoHistorico_restaurarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botaoHistorico_indeferirVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botaoHistorico_MudarEstadoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botaoHistorico_gerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -835,34 +822,19 @@ public class Tela extends javax.swing.JFrame {
         atualizarTabelaHistorico();
     }//GEN-LAST:event_botaoEstoque_consultarDindins2ActionPerformed
 
-    private void botaoHistorico_restaurarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoHistorico_restaurarVendaActionPerformed
+    private void botaoHistorico_MudarEstadoVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoHistorico_MudarEstadoVendaActionPerformed
         mudarEstadoVenda();
-    }//GEN-LAST:event_botaoHistorico_restaurarVendaActionPerformed
+    }//GEN-LAST:event_botaoHistorico_MudarEstadoVendaActionPerformed
 
     private void tabelaHistorico_historicoVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaHistorico_historicoVendasMouseClicked
         int linha = tabelaHistorico_historicoVendas.getSelectedRow();
         
         if (evt.getButton() == MouseEvent.BUTTON1 && linha >= 0) {
             
-            String estado = (String) modelo_historicoVendas.getValueAt(linha, 5);
-            
-            switch(estado) {
-                case "operante":
-                    botaoHistorico_indeferirVenda.setEnabled(true);
-                    botaoHistorico_restaurarVenda.setEnabled(false);
-                    break;
-                case "indeferida":
-                    botaoHistorico_indeferirVenda.setEnabled(false);
-                    botaoHistorico_restaurarVenda.setEnabled(true);
-                    break;
-            }
+            botaoHistorico_MudarEstadoVenda.setEnabled(true);
             
         }
     }//GEN-LAST:event_tabelaHistorico_historicoVendasMouseClicked
-
-    private void botaoHistorico_indeferirVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoHistorico_indeferirVendaActionPerformed
-        mudarEstadoVenda();
-    }//GEN-LAST:event_botaoHistorico_indeferirVendaActionPerformed
 
     private void botaoHistorico_gerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoHistorico_gerarRelatorioActionPerformed
         Relatorio relatorio = new Relatorio();
@@ -939,8 +911,8 @@ public class Tela extends javax.swing.JFrame {
         ArrayList<Venda> lista = acesso.selectVendas();
 
         modelo_historicoVendas.setNumRows(0);
-        botaoHistorico_indeferirVenda.setEnabled(false);
-        botaoHistorico_restaurarVenda.setEnabled(false);
+        botaoHistorico_MudarEstadoVenda.setEnabled(false);
+        botaoHistorico_MudarEstadoVenda.setEnabled(false);
         
         if (lista == null) {
             JOptionPane.showMessageDialog(this, "Houve um erro ao consultar o histórico");
@@ -1018,9 +990,8 @@ public class Tela extends javax.swing.JFrame {
     private javax.swing.JButton botaoEstoque_consultarDindins2;
     private javax.swing.JButton botaoEstoque_limparFormDindin;
     private javax.swing.JButton botaoEstoque_removerDindin;
+    private javax.swing.JButton botaoHistorico_MudarEstadoVenda;
     private javax.swing.JButton botaoHistorico_gerarRelatorio;
-    private javax.swing.JButton botaoHistorico_indeferirVenda;
-    private javax.swing.JButton botaoHistorico_restaurarVenda;
     private javax.swing.JButton botaoVenda_adicionarDindin;
     private javax.swing.JButton botaoVenda_cancelarVenda;
     private javax.swing.JButton botaoVenda_executarVenda;
