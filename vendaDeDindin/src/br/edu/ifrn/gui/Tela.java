@@ -827,18 +827,7 @@ public class Tela extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoEstoque_consultarDindins2ActionPerformed
 
     private void botaoHistorico_restaurarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoHistorico_restaurarVendaActionPerformed
-        int linha = tabelaHistorico_historicoVendas.getSelectedRow();
-        
-        if (linha >= 0) {
-            int idVenda = (int) modelo_historicoVendas.getValueAt(linha, 0);
-            String estado = "operante";
-            
-            mensagem(acesso.updateEstadoVenda(idVenda, estado));
-            
-            atualizarTabelaHistorico();
-        } else {
-            JOptionPane.showMessageDialog(this, "Escolha uma venda para realizar essa operação!");
-        }
+        mudarEstadoVenda();
     }//GEN-LAST:event_botaoHistorico_restaurarVendaActionPerformed
 
     private void tabelaHistorico_historicoVendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaHistorico_historicoVendasMouseClicked
@@ -863,18 +852,7 @@ public class Tela extends javax.swing.JFrame {
     }//GEN-LAST:event_tabelaHistorico_historicoVendasMouseClicked
 
     private void botaoHistorico_indeferirVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoHistorico_indeferirVendaActionPerformed
-        int linha = tabelaHistorico_historicoVendas.getSelectedRow();
-        
-        if (linha >= 0) {
-            int idVenda = (int) modelo_historicoVendas.getValueAt(linha, 0);
-            String estado = "indeferida";
-            
-            mensagem(acesso.updateEstadoVenda(idVenda, estado));
-            
-            atualizarTabelaHistorico();
-        } else {
-            JOptionPane.showMessageDialog(this, "Escolha uma venda para realizar essa operação!");
-        }
+        mudarEstadoVenda();
     }//GEN-LAST:event_botaoHistorico_indeferirVendaActionPerformed
 
     /* -/-/-/-/-/-/-/-/-/-/- Métodos relacionados ao banco de dados -/-/-/-/-/-/-/-/-/-/- */
@@ -950,6 +928,21 @@ public class Tela extends javax.swing.JFrame {
                     v.getEstado()
                 });
             }
+        }
+    }
+    
+    private void mudarEstadoVenda(){
+        int linha = tabelaHistorico_historicoVendas.getSelectedRow();
+        
+        if (linha >= 0) {
+            int idVenda = (int) modelo_historicoVendas.getValueAt(linha, 0);
+            String estado = (String) modelo_historicoVendas.getValueAt(linha, 5);
+            
+            mensagem(acesso.alternarEstadoVenda(new Venda(idVenda, estado)));
+            
+            atualizarTabelaHistorico();
+        } else {
+            JOptionPane.showMessageDialog(this, "Escolha uma venda para realizar essa operação!");
         }
     }
     

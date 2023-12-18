@@ -32,28 +32,66 @@ public class AcessoBD {
     }
     
     
+    
     /* --- VENDA --- */
 
     public int insertVenda(Venda venda) {
-        if (venda.getDindinsVendidos().isEmpty()) {
-            return ERRO_SINTAXE;
-        } else {
-            return new ConexaoVenda().insert(venda);
+        int idVenda = new subConexaoVenda().getNextID();
+        
+        if (idVenda < 0) return idVenda;
+        
+        venda.setIdVenda(idVenda);
+        
+        int mensagem = new ConexaoVenda().insert(venda);
+        
+        if (mensagem < 0) return mensagem;
+        
+        for (DindinVendido dv : venda.getDindinsVendidos()) {
+            mensagem = new subConexaoVenda().insertDindinVendido(dv);
+            
+            if (mensagem < 0) return mensagem;
         }
+        
+        mensagem = new subConexaoVenda().executarBaixaDindins(venda);
+        
+        return mensagem;
     }
     
-    public int updateEstadoVenda(int idVenda, String estado) {
-        estado = estado.toLowerCase();
-        
-        if (!estado.equals("operante") && !estado.equals("indeferida")) {
-            return ERRO_SINTAXE;
+    public int alternarEstadoVenda(Venda venda) {
+        if (!venda.getEstado().equals(Venda.VENDA_INDEFERIDA) && !venda.getEstado().equals(Venda.VENDA_INDEFERIDA)) {
+            return AcessoBD.ERRO_SINTAXE;
         } else {
-            return new ConexaoVenda().updateEstado(idVenda, estado);
+            return new ConexaoVenda().alternarEstado(venda);
         }
     }
     
     public ArrayList<Venda> selectVendas() {
-        return new ConexaoVenda().selectVendas();
+        ArrayList<Venda> listaVenda = new ArrayList<>();
+        
+        ArrayList<Integer> listaId = new ConexaoVenda().selectDistinctIdVenda();
+        if (listaId == null) return null;
+        
+        for (Integer id : listaId) {
+            Venda venda = new ConexaoVenda().selectVenda(id);
+            if (venda == null) return null;
+            
+            listaVenda.add(venda);
+            
+            ArrayList<DindinVendido> listaDindinVendido = new subConexaoVenda().selectDindinsVendidos(id);
+            if (listaDindinVendido == null) return null;
+            
+            venda.setDindinsVendidos(listaDindinVendido);
+            
+            for (DindinVendido dv : listaDindinVendido) {
+                Dindin dindin = new ConexaoDindin().selectDindin(dv.getDindin().getSabor());
+                if (dindin == null) return null;
+                
+                dv.setDindin(dindin);
+            }
+        }
+        
+        return listaVenda;
+        
     }
     
 
@@ -218,12 +256,11 @@ public class AcessoBD {
         }
     }
     
-    
     /* insert, updateEstado, selectVenda e selectVendas */
     private class ConexaoVenda extends ConexaoBD {
         
         // atualiza o estado da venda no banco de dados
-        private int updateEstado(int idVenda, String estado) {
+        private int alternarEstado(Venda v) {
             int mensagem = conectar();
             
             if (mensagem < 0) {
@@ -231,11 +268,17 @@ public class AcessoBD {
                 return mensagem;
             }
             
+            if (v.getEstado().equals(Venda.VENDA_INDEFERIDA)) {
+                v.setEstado(Venda.VENDA_OPERANTE);
+            } else {
+                v.setEstado(Venda.VENDA_INDEFERIDA);
+            }
+            
             try {
-                instrucao = con.prepareStatement("update venda set estado = ? where idVenda = ?");
+                instrucao = con.prepareStatement("update venda set estado = ? where idVenda = ? limit 1");
                 
-                instrucao.setString(1, estado);
-                instrucao.setInt(2, idVenda);
+                instrucao.setString(1, v.getEstado());
+                instrucao.setInt(2, v.getIdVenda());
                 
                 instrucao.execute();
                 
@@ -272,15 +315,6 @@ public class AcessoBD {
                 instrucao.setString(5, v.getEstado());
 
                 instrucao.execute();
-                
-                for (DindinVendido dv : v.getDindinsVendidos()) {
-                    mensagem = new subConexaoVenda().insertDindinVendido(dv);
-                    if (mensagem < 0) {
-                        fecharConexao();
-                        return mensagem;
-                    }
-                }
-
 
             } catch (SQLException ex) {
                 mensagem = AcessoBD.ERRO_SINTAXE;
@@ -288,13 +322,52 @@ public class AcessoBD {
                 fecharConexao();
             }
             
-            new subConexaoVenda().executarBaixaDindins(v);
-            
             return mensagem;
         }
         
+        
         // retorna um ArrayList de objetos Venda
-        private ArrayList<Venda> selectVendas() {
+        private Venda selectVenda(int idVenda) {
+            int mensagem = conectar();
+            
+            if (mensagem < 0) {
+                fecharConexao();
+                return null;
+            }
+            
+            Venda v = new Venda(idVenda);
+
+            try {
+                
+                instrucao = con.prepareStatement("select * from venda where idVenda = ?");
+
+                instrucao.setInt(1, idVenda);
+
+                ResultSet resul = instrucao.executeQuery();
+
+                if (resul.next()) {
+
+                    v.setIdVenda(resul.getInt("idVenda"));
+                    v.setValorTotal(resul.getDouble("valorTotal"));
+                    v.setDesconto(resul.getDouble("desconto"));
+                    v.setDataVenda(resul.getDate("dataVenda"));
+                    v.setEstado(resul.getString("estado"));
+
+                }
+                    
+                
+            } catch (SQLException ex) {
+                v = null;
+            } finally {
+                fecharConexao();
+            }
+
+            return v;
+        }
+        
+        
+        // retorna um ArrayList contendo os ID's das vendas ordenadas por data e número
+        private ArrayList<Integer> selectDistinctIdVenda() {
             int mensagem = conectar();
             
             if (mensagem < 0) {
@@ -302,48 +375,17 @@ public class AcessoBD {
                 return null;
             }
 
-            ArrayList<Integer> lista_idVenda = new subConexaoVenda().selectDistinctIdVenda();
-            
-            if (lista_idVenda == null) {
-                fecharConexao();
-                return null;
-            }
-            
-            ArrayList<Venda> lista = new ArrayList<>();
+            ArrayList<Integer> lista = new ArrayList<>();
 
             try {
-                
-                for (Integer id : lista_idVenda) {
-                    instrucao = con.prepareStatement("select * from venda where idVenda = ?");
-                    
-                    instrucao.setInt(1, id);
-                    
-                    ResultSet resul = instrucao.executeQuery();
-                    
-                    while (resul.next()) {                
+                instrucao = con.prepareStatement("select idVenda from venda order by dataVenda desc, idVenda desc");
+                ResultSet resul = instrucao.executeQuery();
 
-                        Venda v = new Venda();
-
-                        v.setIdVenda(resul.getInt("idVenda"));
-                        v.setValorTotal(resul.getDouble("valorTotal"));
-                        v.setDesconto(resul.getDouble("desconto"));
-                        v.setDataVenda(resul.getDate("dataVenda"));
-                        v.setEstado(resul.getString("estado"));
-
-                        v.setDindinsVendidos(
-                                new subConexaoVenda().selectDindinsVendidos(v.getIdVenda())
-                        );
-                        
-                        if (v.getDindinsVendidos() == null) {
-                            fecharConexao();
-                            return null;
-                        }
-
-                        lista.add(v);
-                    }
-                    
+                while (resul.next()) {                
+                    int idVenda = resul.getInt("idVenda");
+                    lista.add(idVenda);
                 }
-                
+
             } catch (SQLException ex) {
                 lista = null;
             } finally {
@@ -373,7 +415,7 @@ public class AcessoBD {
                 instrucao = con.prepareStatement("select max(idVenda) as id from venda limit 1");
                 ResultSet resul = instrucao.executeQuery();
 
-                while (resul.next()) {
+                if (resul.next()) {
                     id = (1 + resul.getInt("id"));
                 }
 
@@ -384,35 +426,6 @@ public class AcessoBD {
             }
 
             return id;
-        }
-        
-        // retorna um objeto de Dindin
-        private ArrayList<Integer> selectDistinctIdVenda() {
-            int mensagem = conectar();
-            
-            if (mensagem < 0) {
-                fecharConexao();
-                return null;
-            }
-
-            ArrayList<Integer> lista = new ArrayList<>();
-
-            try {
-                instrucao = con.prepareStatement("select idVenda from venda order by dataVenda desc, idVenda asc");
-                ResultSet resul = instrucao.executeQuery();
-
-                while (resul.next()) {                
-                    int idVenda = resul.getInt("idVenda");
-                    lista.add(idVenda);
-                }
-
-            } catch (SQLException ex) {
-                lista = null;
-            } finally {
-                fecharConexao();
-            }
-
-            return lista;
         }
         
         // insere um objeto DindinVendido no banco de dados
@@ -432,6 +445,7 @@ public class AcessoBD {
                 instrucao.setInt(3, dv.getQuantidade());
 
                 instrucao.execute();
+                
             } catch (SQLException ex) {
                 mensagem = ERRO_SINTAXE;
             } finally {
@@ -500,10 +514,10 @@ public class AcessoBD {
                 
                 
                 for (DindinVendido dv : venda.getDindinsVendidos()) {
-                    instrucao = con.prepareStatement("update dindin set quantidadeEstoque = ? where sabor = ?");
+                    instrucao = con.prepareStatement("update dindin set quantidadeEstoque = quantidadeEstoque - ? where sabor = ?");
                     
                     String sabor = dv.getDindin().getSabor();
-                    int quantidade = (new ConexaoDindin().selectDindin(sabor).getQuantidadeEstoque())-(dv.getQuantidade());
+                    int quantidade = dv.getQuantidade();
                     
                     instrucao.setInt(1, quantidade);
                     instrucao.setString(2, sabor);
@@ -552,8 +566,6 @@ public class AcessoBD {
         }
     }
     
-
-
     
     /* Mensagens de erro */
     public static final int OPERACAO_CONCLUIDA = 0;
