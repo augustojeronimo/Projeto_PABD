@@ -146,6 +146,16 @@ public class Venda {
         return str_dindins;
     }
     
+    public String getSaboresVendidosRelatorio(){
+        String str_dindins = "";
+        
+        for (DindinVendido dv : dindinsVendidos) {
+            str_dindins += String.format("%-40s [%03d]%n", dv.getDindin().getSabor(), dv.getQuantidade());
+        }
+        
+        return str_dindins;
+    }
+    
     public void addDindinVendido(DindinVendido dindinVendido){
         if (dindinsVendidos.add(dindinVendido)) {
             dindinVendido.setIdVenda(this.idVenda);

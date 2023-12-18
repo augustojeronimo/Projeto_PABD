@@ -3,12 +3,37 @@ package br.edu.ifrn.banco;
 import br.edu.ifrn.dominio.Dindin;
 import br.edu.ifrn.dominio.DindinVendido;
 import br.edu.ifrn.dominio.Venda;
+import br.edu.ifrn.relatorio.DadosRelatorio;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class AcessoBD {
+    public ArrayList<DadosRelatorio> selectHistorico(){
+        
+        ArrayList<DadosRelatorio> lista = new ArrayList<>();
+        
+        ArrayList<Venda> listaVenda = selectVendas();
+        if(listaVenda == null) return null;
+            
+        for (Venda v : listaVenda) {
+            DadosRelatorio dr = new DadosRelatorio();
+            
+            dr.setIdVenda(v.getIdVenda());
+            dr.setSaboresVendidos(v.getSaboresVendidosRelatorio());
+            dr.setValorTotal(v.getValorTotal());
+            dr.setDesconto(v.getDesconto());
+            dr.setData(v.getDataVenda());
+            dr.setEstado(v.getEstado());
+            
+            lista.add(dr);
+        }
+        
+        
+        return lista;
+    }
+    
     /* --- DINDIN --- */
 
     public int InsertDindin(Dindin d) {

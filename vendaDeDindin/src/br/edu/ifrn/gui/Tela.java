@@ -9,23 +9,29 @@ import br.edu.ifrn.banco.AcessoBD;
 import br.edu.ifrn.dominio.Dindin;
 import br.edu.ifrn.dominio.DindinVendido;
 import br.edu.ifrn.dominio.Venda;
+import br.edu.ifrn.relatorio.DadosRelatorio;
+import br.edu.ifrn.relatorio.Relatorio;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
 
 
 public class Tela extends javax.swing.JFrame {
     
     private AcessoBD acesso;
     private Venda venda;
-    
 
+    
     DefaultTableModel modelo_dindinsSelecionados;
     DefaultTableModel modelo_dindinsEstoque;
     DefaultTableModel modelo_historicoVendas;
@@ -544,6 +550,11 @@ public class Tela extends javax.swing.JFrame {
 
         botaoHistorico_gerarRelatorio.setText("Gerar relatório");
         botaoHistorico_gerarRelatorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botaoHistorico_gerarRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoHistorico_gerarRelatorioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout painel_botoesHistoricoLayout = new javax.swing.GroupLayout(painel_botoesHistorico);
         painel_botoesHistorico.setLayout(painel_botoesHistoricoLayout);
@@ -855,11 +866,30 @@ public class Tela extends javax.swing.JFrame {
         mudarEstadoVenda();
     }//GEN-LAST:event_botaoHistorico_indeferirVendaActionPerformed
 
+    private void botaoHistorico_gerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoHistorico_gerarRelatorioActionPerformed
+        Relatorio relatorio = new Relatorio();
+        
+        List<DadosRelatorio> lista = acesso.selectHistorico();
+        if(lista == null){
+            JOptionPane.showMessageDialog(this, "Erro ao consultar banco de dados\nNão foi possível gerar relatório");
+        }else{
+            try {
+                relatorio.gerarRelatorio(lista);
+            } catch (JRException ex) {
+                JOptionPane.showMessageDialog(this, "Erro ao gerar relatório");
+            }
+        }
+        
+        
+    }//GEN-LAST:event_botaoHistorico_gerarRelatorioActionPerformed
+    
+    
     /* -/-/-/-/-/-/-/-/-/-/- Métodos relacionados ao banco de dados -/-/-/-/-/-/-/-/-/-/- */
     
     /* -=-=-=-=- Métodos da tela de venda -=-=-=-=- */
     private void preencherComboVenda() {
         ArrayList<Dindin> lista = acesso.selectDindins();
+        if(lista == null) return;
         
         comboVenda_saborDindin.removeAllItems();
         
