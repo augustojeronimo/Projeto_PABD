@@ -74,13 +74,17 @@
 			</textField>
 			<textField>
 				<reportElement x="79" y="55" width="79" height="20" uuid="52c365b4-0c3a-4bbe-a8a6-e4bf459d2beb"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["R\$ " + String.format("%.2f", $F{valorTotal})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="79" y="75" width="79" height="20" uuid="4d78ef00-ec97-4d18-8aa4-24100f235d3a"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{desconto}]]></textFieldExpression>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["R\$ " + String.format("%.2f", $F{desconto})]]></textFieldExpression>
 			</textField>
 			<elementGroup/>
 			<staticText>
@@ -120,12 +124,16 @@
 			</staticText>
 			<textField>
 				<reportElement x="79" y="104" width="79" height="20" uuid="7d7573d6-530a-4a64-afc1-0fbcfb8966ed"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{dataVenda}]]></textFieldExpression>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{dataVenda})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="79" y="134" width="79" height="20" uuid="b737d6e4-c970-421b-9c39-b8feb58a0822"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
 			</textField>
 			<subreport>
