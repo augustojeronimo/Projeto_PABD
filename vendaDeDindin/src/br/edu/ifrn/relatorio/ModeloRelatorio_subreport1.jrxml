@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ModeloRelatorio_subreport1" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="13763b65-ccf1-485b-adb0-d2bec271807d">
+	<property name="ireport.zoom" value="0.9090909090909096"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="vendaIdParametro" class="java.lang.String">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     *,
+     dindinVendido.`saborDindin` AS dindinVendido_saborDindin,
+     dindinVendido.`quantidade` AS dindinVendido_quantidade
+FROM
+     `venda` venda INNER JOIN `dindinVendido` dindinVendido ON venda.`idVenda` = dindinVendido.`idVenda`
+WHERE
+     venda.idVenda = dindinVendido.idVenda and venda.idVenda = $P{vendaIdParametro} ]]>
+	</queryString>
+	<field name="idVenda" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="valorTotal" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="desconto" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dataVenda" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estado" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="saborDindin" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="quantidade" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dindinVendido_saborDindin" class="java.lang.String"/>
+	<field name="dindinVendido_quantidade" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="23" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="401" height="20" uuid="bfd2b2b2-a042-40c3-aaf4-eb69903f4dc0"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sabor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="401" y="0" width="401" height="20" uuid="90477e46-65e9-4c05-a49f-9b1c43dde0af"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantidade]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="401" height="20" uuid="edd8e201-2851-4133-aeb3-5336ba1650e4"/>
+				<textFieldExpression><![CDATA[$F{dindinVendido_saborDindin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="401" y="0" width="401" height="20" uuid="c7b067db-b21e-44bf-b350-1cf73b6bddef"/>
+				<textFieldExpression><![CDATA[$F{dindinVendido_quantidade}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="12" splitType="Stretch"/>
+	</summary>
+</jasperReport>
