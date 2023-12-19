@@ -134,7 +134,7 @@
 					<subreportParameterExpression><![CDATA[$V{idParametro}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subreport3.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["/subreport3.jasper"]]></subreportExpression>
 			</subreport>
 			<line>
 				<reportElement x="0" y="0" width="555" height="1" uuid="340caa1f-b809-4661-8d02-c55a00bbe55a"/>

@@ -578,7 +578,8 @@ public class AcessoBD {
         public void gerarRelatorio() throws JRException {
             conectar();
             
-            JasperPrint print = JasperFillManager.fillReport("./src/br/edu/ifrn/relatorio/ModeloRelatorio3.jasper", null, con);
+            String caminhoRelatorio = "./src/br/edu/ifrn/relatorio/ModeloRelatorio3.jasper";
+            JasperPrint print = JasperFillManager.fillReport(caminhoRelatorio, null, con);
             JasperViewer.viewReport(print, false);
             
             fecharConexao();
