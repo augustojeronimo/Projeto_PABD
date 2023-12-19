@@ -4,6 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="vendaIdParametro" class="java.lang.String">
+		<property name="vendaId" value="$F{idVenda}"/>
 		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -14,7 +15,7 @@
 FROM
      `venda` venda INNER JOIN `dindinVendido` dindinVendido ON venda.`idVenda` = dindinVendido.`idVenda`
 WHERE
-     venda.idVenda = dindinVendido.idVenda and venda.idVenda = $P{vendaIdParametro}]]>
+     venda.idVenda = dindinVendido.idVenda and venda.idVenda = $F{idVenda}]]>
 	</queryString>
 	<field name="idVenda" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>

@@ -10,7 +10,7 @@
 		<defaultValueExpression><![CDATA["E:\\repositorios-projetos\\Projeto_PABD\\vendaDeDindin\\src\\br\\edu\\ifrn\\relatorio\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select * from venda;]]>
+		<![CDATA[select * from venda order by idVenda desc;]]>
 	</queryString>
 	<field name="idVenda" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -29,7 +29,7 @@
 	</field>
 	<variable name="idParametro" class="java.lang.Long">
 		<variableExpression><![CDATA[]]></variableExpression>
-		<initialValueExpression><![CDATA[]]></initialValueExpression>
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
