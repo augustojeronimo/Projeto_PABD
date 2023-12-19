@@ -75,12 +75,12 @@
 			<textField>
 				<reportElement x="79" y="55" width="79" height="20" uuid="52c365b4-0c3a-4bbe-a8a6-e4bf459d2beb"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["R\$ " + String.format("%.2f", $F{valorTotal})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="79" y="75" width="79" height="20" uuid="4d78ef00-ec97-4d18-8aa4-24100f235d3a"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{desconto}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["R\$ " + String.format("%.2f", $F{desconto})]]></textFieldExpression>
 			</textField>
 			<elementGroup/>
 			<staticText>
