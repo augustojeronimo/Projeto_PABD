@@ -80,11 +80,4 @@ public class Dindin {
         return true;
     }
     
-    
-
-    @Override
-    public String toString() {
-        return "Dindin{" + "sabor=" + sabor + ", valor=" + valor + ", quantidadeEstoque=" + quantidadeEstoque + '}';
-    }
-
 }

@@ -37,8 +37,6 @@ public class DindinVendido {
         this.quantidade = quantidade;
     }
 
-    
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -58,11 +56,6 @@ public class DindinVendido {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "DindinVendido{" + "dindin=" + dindin + ", quantidade=" + quantidade + '}';
     }
     
 }
