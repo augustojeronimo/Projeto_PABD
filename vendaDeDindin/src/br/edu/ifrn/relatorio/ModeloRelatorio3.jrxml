@@ -121,7 +121,7 @@
 			<textField>
 				<reportElement x="79" y="104" width="79" height="20" uuid="7d7573d6-530a-4a64-afc1-0fbcfb8966ed"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{dataVenda}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{dataVenda})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="79" y="134" width="79" height="20" uuid="b737d6e4-c970-421b-9c39-b8feb58a0822"/>
