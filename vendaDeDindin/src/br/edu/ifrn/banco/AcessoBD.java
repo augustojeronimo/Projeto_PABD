@@ -576,8 +576,9 @@ public class AcessoBD {
     private class ConexaoRelatorio extends ConexaoBD{
         //método para gerar relatório
         public void gerarRelatorio() throws JRException {
+            conectar();
             
-            JasperPrint print = JasperFillManager.fillReport("./src/br/edu/ifrn/relatorio/ModeloRelatorio.jasper", null, getCon());
+            JasperPrint print = JasperFillManager.fillReport("./src/br/edu/ifrn/relatorio/ModeloRelatorio.jasper", null, con);
             JasperViewer.viewReport(print, false);
             
             fecharConexao();

@@ -30,17 +30,15 @@ abstract class ConexaoBD {
         int mensagem = AcessoBD.OPERACAO_CONCLUIDA;
         
         try {
-            instrucao.close();
+            if (instrucao != null) {
+                instrucao.close();
+            }
+            
             con.close();
         } catch (SQLException ex) {
             mensagem = AcessoBD.ERRO_FECHAR_CONEXAO;
         }
         
         return mensagem;
-    }
-    
-    protected Connection getCon() {
-        conectar();
-        return this.con;
     }
 }
