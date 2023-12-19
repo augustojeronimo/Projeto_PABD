@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ModeloRelatorio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e971d20f-9ab3-46ad-babb-4ef2ca7c7ad0">
-	<property name="ireport.zoom" value="1.3310000000000046"/>
+	<property name="ireport.zoom" value="1.210000000000003"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<subDataset name="dataset1" uuid="7084ec63-1117-40a0-a70f-a75167d986ae"/>
@@ -10,7 +10,7 @@
 		<defaultValueExpression><![CDATA["E:\\repositorios-projetos\\Projeto_PABD\\vendaDeDindin\\src\\br\\edu\\ifrn\\relatorio\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select * from venda order by idVenda desc;]]>
+		<![CDATA[select * from venda order by dataVenda desc, idVenda desc;]]>
 	</queryString>
 	<field name="idVenda" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -28,8 +28,8 @@
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<variable name="idParametro" class="java.lang.Long">
-		<variableExpression><![CDATA[]]></variableExpression>
-		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+		<variableExpression><![CDATA[$F{idVenda}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -58,82 +58,87 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="20" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
 		<band height="154" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="15" width="119" height="30" uuid="52b88b5c-3b31-492e-a0a7-b9fb790cc1d4"/>
+			</rectangle>
 			<textField isBlankWhenNull="false">
-				<reportElement x="40" y="0" width="79" height="30" uuid="68ae7ca9-5dfd-454e-805a-509d1131b29a"/>
-				<textElement textAlignment="Left">
+				<reportElement x="57" y="15" width="62" height="30" uuid="68ae7ca9-5dfd-454e-805a-509d1131b29a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="15" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{idVenda}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="79" y="40" width="79" height="20" uuid="52c365b4-0c3a-4bbe-a8a6-e4bf459d2beb"/>
-				<textElement textAlignment="Left"/>
+				<reportElement x="79" y="55" width="79" height="20" uuid="52c365b4-0c3a-4bbe-a8a6-e4bf459d2beb"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="79" y="60" width="79" height="20" uuid="4d78ef00-ec97-4d18-8aa4-24100f235d3a"/>
-				<textElement textAlignment="Left"/>
+				<reportElement x="79" y="75" width="79" height="20" uuid="4d78ef00-ec97-4d18-8aa4-24100f235d3a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{desconto}]]></textFieldExpression>
 			</textField>
-			<elementGroup>
-				<subreport>
-					<reportElement x="158" y="0" width="397" height="154" uuid="25b3e7eb-e524-434e-96ea-2d3d46337f77"/>
-					<subreportParameter name="VendaId">
-						<subreportParameterExpression><![CDATA[$F{idVenda}]]></subreportParameterExpression>
-					</subreportParameter>
-					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ModeloRelatorio_subreport1.jasper"]]></subreportExpression>
-				</subreport>
-			</elementGroup>
+			<elementGroup/>
 			<staticText>
-				<reportElement x="0" y="0" width="40" height="30" uuid="18ddf85f-51a2-4d6a-9633-d22dd493ba39"/>
-				<textElement textAlignment="Left">
+				<reportElement x="17" y="15" width="40" height="30" uuid="18ddf85f-51a2-4d6a-9633-d22dd493ba39"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="40" width="79" height="20" uuid="204de0a8-2725-43f2-983a-946f80bf7bdc"/>
-				<textElement textAlignment="Left">
+				<reportElement x="0" y="55" width="79" height="20" uuid="204de0a8-2725-43f2-983a-946f80bf7bdc"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Valor total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="60" width="79" height="20" uuid="b8a63358-eaab-4b98-ac0d-4476d5595696"/>
-				<textElement textAlignment="Left">
+				<reportElement x="0" y="75" width="79" height="20" uuid="b8a63358-eaab-4b98-ac0d-4476d5595696"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Desconto]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="104" width="79" height="20" uuid="c4f3caec-7322-40fb-b1c6-84d576f554b3"/>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="134" width="79" height="20" uuid="d29aa4d7-a245-48db-906e-f62d8037af8e"/>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Estado]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="79" y="104" width="79" height="20" uuid="7d7573d6-530a-4a64-afc1-0fbcfb8966ed"/>
-				<textElement textAlignment="Left"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{dataVenda}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="79" y="134" width="79" height="20" uuid="b737d6e4-c970-421b-9c39-b8feb58a0822"/>
-				<textElement textAlignment="Left"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
 			</textField>
+			<subreport>
+				<reportElement x="202" y="15" width="353" height="139" uuid="295ac292-2275-421f-bd26-4d15d1357336"/>
+				<subreportParameter name="idVenda">
+					<subreportParameterExpression><![CDATA[$V{idParametro}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subreport3.jasper"]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="340caa1f-b809-4661-8d02-c55a00bbe55a"/>
+			</line>
 		</band>
 	</detail>
 	<columnFooter>
