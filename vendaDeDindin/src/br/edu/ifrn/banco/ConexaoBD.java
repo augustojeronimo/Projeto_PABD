@@ -39,4 +39,8 @@ abstract class ConexaoBD {
         return mensagem;
     }
     
+    protected Connection getCon() {
+        conectar();
+        return this.con;
+    }
 }

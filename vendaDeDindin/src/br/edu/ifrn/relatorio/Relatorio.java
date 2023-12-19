@@ -12,14 +12,6 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class Relatorio {
     
-    //método para gerar relatório
-    public void gerarRelatorio(List<DadosRelatorio> lista) throws JRException{
-        
-        InputStream caminho = Relatorio.class.getResourceAsStream("ModeloRelatorio.jrxml");
-        
-        JasperReport report = JasperCompileManager.compileReport(caminho);
-        JasperPrint print = JasperFillManager.fillReport(report, null, new JRBeanCollectionDataSource(lista));
-        JasperViewer.viewReport(print, false);
-    }
+    
     
 }

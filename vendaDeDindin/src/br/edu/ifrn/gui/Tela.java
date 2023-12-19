@@ -16,6 +16,8 @@ import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
@@ -837,20 +839,11 @@ public class Tela extends javax.swing.JFrame {
     }//GEN-LAST:event_tabelaHistorico_historicoVendasMouseClicked
 
     private void botaoHistorico_gerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoHistorico_gerarRelatorioActionPerformed
-        Relatorio relatorio = new Relatorio();
-        
-        List<DadosRelatorio> lista = acesso.selectHistorico();
-        if(lista == null){
-            JOptionPane.showMessageDialog(this, "Erro ao consultar banco de dados\nNão foi possível gerar relatório");
-        }else{
-            try {
-                relatorio.gerarRelatorio(lista);
-            } catch (JRException ex) {
-                JOptionPane.showMessageDialog(this, "Erro ao gerar relatório");
-            }
+        try {
+            acesso.gerarRelatorio();
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
-        
-        
     }//GEN-LAST:event_botaoHistorico_gerarRelatorioActionPerformed
     
     

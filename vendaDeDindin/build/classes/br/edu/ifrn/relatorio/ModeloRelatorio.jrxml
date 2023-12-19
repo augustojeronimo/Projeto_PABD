@@ -1,22 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ModeloRelatorio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e971d20f-9ab3-46ad-babb-4ef2ca7c7ad0">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.6105100000000026"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="12"/>
 	<subDataset name="dataset1" uuid="7084ec63-1117-40a0-a70f-a75167d986ae"/>
-	<field name="idVenda" class="java.lang.String"/>
-	<field name="saboresVendidos" class="java.lang.String"/>
-	<field name="valorTotal" class="java.lang.String"/>
-	<field name="desconto" class="java.lang.String"/>
-	<field name="data" class="java.lang.String"/>
-	<field name="estado" class="java.lang.String"/>
+	<subDataset name="dataset2" uuid="032df9f0-64a5-4de5-b19b-341d5d881c96"/>
+	<subDataset name="dataset3" uuid="2df3ff0f-2294-4c43-9a5a-4911e9f2e245"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\repositorios-projetos\\Projeto_PABD\\vendaDeDindin\\src\\br\\edu\\ifrn\\relatorio\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from venda;]]>
+	</queryString>
+	<field name="idVenda" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="valorTotal" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="desconto" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dataVenda" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estado" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="idParametro" class="java.lang.Long">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="79" splitType="Stretch">
 			<rectangle>
-				<reportElement x="-23" y="0" width="598" height="79" backcolor="#3333FF" uuid="143c0754-bda4-4454-b747-675a91032aee"/>
+				<reportElement x="-23" y="0" width="598" height="79" backcolor="#003366" uuid="143c0754-bda4-4454-b747-675a91032aee"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="0" y="0" width="555" height="79" forecolor="#FFFFFF" uuid="43b53791-ba74-48ea-8761-904da2f9aca0"/>
@@ -28,89 +49,103 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="35" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="373" y="0" width="182" height="35" uuid="7578b0ce-d297-416b-a534-9f6cdf2edb28"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch">
+		<band height="20" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="119" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="20" width="94" height="20" uuid="68ae7ca9-5dfd-454e-805a-509d1131b29a"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{idVenda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="94" y="20" width="183" height="20" uuid="52c365b4-0c3a-4bbe-a8a6-e4bf459d2beb"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="277" y="20" width="79" height="20" uuid="4d78ef00-ec97-4d18-8aa4-24100f235d3a"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{desconto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="356" y="20" width="99" height="20" uuid="7d7573d6-530a-4a64-afc1-0fbcfb8966ed"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{dataVenda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="20" width="100" height="20" uuid="b737d6e4-c970-421b-9c39-b8feb58a0822"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<elementGroup>
+				<subreport>
+					<reportElement x="47" y="40" width="461" height="79" uuid="25b3e7eb-e524-434e-96ea-2d3d46337f77"/>
+					<subreportParameter name="VendaId">
+						<subreportParameterExpression><![CDATA[$F{idVenda}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ModeloRelatorio_subreport1.jasper"]]></subreportExpression>
+				</subreport>
+			</elementGroup>
 			<staticText>
-				<reportElement x="0" y="0" width="60" height="20" uuid="0f2a18ef-5ac2-4e93-b5dd-0d60e3edd24f"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<reportElement x="0" y="0" width="94" height="20" uuid="18ddf85f-51a2-4d6a-9633-d22dd493ba39"/>
+				<textElement textAlignment="Left">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="252" y="0" width="83" height="20" uuid="627e5176-a763-473c-aa1f-f36f21f2c978"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<reportElement x="94" y="0" width="183" height="20" uuid="204de0a8-2725-43f2-983a-946f80bf7bdc"/>
+				<textElement textAlignment="Left">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Valor total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="335" y="0" width="87" height="20" uuid="0aca0c85-7c01-4870-9db6-d67998dc2a6f"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<reportElement x="277" y="0" width="79" height="20" uuid="b8a63358-eaab-4b98-ac0d-4476d5595696"/>
+				<textElement textAlignment="Left">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Desconto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="422" y="0" width="65" height="20" uuid="c57f8c7c-b42c-4422-a560-d665236b558f"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<reportElement x="356" y="0" width="99" height="20" uuid="c4f3caec-7322-40fb-b1c6-84d576f554b3"/>
+				<textElement textAlignment="Left">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="487" y="0" width="68" height="20" uuid="27ef7d34-1c6a-432b-8c6c-e2ea0aa2232f"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<reportElement x="455" y="0" width="100" height="20" uuid="d29aa4d7-a245-48db-906e-f62d8037af8e"/>
+				<textElement textAlignment="Left">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Estado]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="60" y="0" width="192" height="20" uuid="6a99a6c8-a640-4f56-9053-19d111f79386"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Sabores vendidos]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
-	<detail>
-		<band height="114" splitType="Stretch">
-			<textField>
-				<reportElement x="0" y="0" width="60" height="20" uuid="1a771802-12da-4f20-aa27-0876abf2c635"/>
-				<textFieldExpression><![CDATA[$F{idVenda}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="252" y="0" width="83" height="20" uuid="308e8622-21fb-4b0b-a515-566950e708c3"/>
-				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="335" y="0" width="87" height="20" uuid="777cf3a6-eaf1-4120-8be3-acfdf873b74b"/>
-				<textFieldExpression><![CDATA[$F{desconto}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="422" y="0" width="65" height="20" uuid="644cd1d7-f85a-4bea-ae2c-88e22b03242f"/>
-				<textFieldExpression><![CDATA[$F{data}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="487" y="0" width="68" height="20" uuid="a495937d-b75f-47a3-8b64-145d2786e42c"/>
-				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="60" y="0" width="192" height="20" uuid="93f26fd4-75fe-4d1f-b0fe-5b5dc827795d"/>
-				<textFieldExpression><![CDATA[$F{saboresVendidos}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="79" splitType="Stretch"/>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="5" width="100" height="20" uuid="70ada0ea-6ae2-49c8-b734-eacd9810f525"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="20" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</summary>
 </jasperReport>
